@@ -1,26 +1,23 @@
+
+import NavTab from './Components/Navigation/NavTab';
+import Login from './Components/Login/Login';
+import { AppContext } from './Components/Context/AppContext';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { MainApp } from './MainApp';
+import CompanySignUpComponent from './Components/companies/CompanySignUp';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	const { isLoggedIn } = React.useContext(AppContext);
+
+	return (
+		<div className="App">
+			<NavTab />
+			{!isLoggedIn && <Login />}
+			
+			{isLoggedIn && <MainApp />}
+		</div>
+	);
 }
 
 export default App;
