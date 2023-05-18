@@ -140,20 +140,20 @@ const CompanySignUpComponent = () => {
                                     <Grid item xs={12} sm={4}>
                                         <FormControlLabel
 
-                                            value="1"
+                                            value={1}
                                             control={<Radio />}
                                             label="9:00 AM to 12:00 PM"
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={4}>
                                         <FormControlLabel
-                                            value="2"
+                                            value={2}
                                             control={<Radio />}
                                             label="2:00 PM to 5:00 PM"
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={4}>
-                                        <FormControlLabel value="3" control={<Radio />} label="full day" />
+                                        <FormControlLabel value={3} control={<Radio />} label="full day" />
                                     </Grid>
                                 </Grid>
                             </RadioGroup>
@@ -225,7 +225,7 @@ const CompanySignUpComponent = () => {
                                     onChange={handleAutoCompleteChange}
                                     style={{ width: 500 }}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Checkboxes" placeholder="Favorites" />
+                                        <TextField {...params} label="Required Skill(es)" placeholder="Skill(es)" />
                                     )}
                                 />
                             </Grid>

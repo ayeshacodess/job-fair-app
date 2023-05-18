@@ -8,7 +8,7 @@ export interface Company {
     noOfInterviewers: number | null;
     contact1: string;
     contact2: string;
-    timeSlot: string | null;
+    timeSlot: number;
     profile: string;
     status: string;
     skills: Skill[];
