@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Company } from '../Model/CompanyModels';
 import AddEditCompany from './AddEditCompany';
+import { AppContext } from '../Context/AppContext';
 
 interface Column {
     id: 'id' | 'name' | 'contact1' | 'status' | 'action';
@@ -52,6 +53,7 @@ interface CompanyModel extends Company {
 }
 
 const CompanyComponent = () => {
+    const { userProfile } = React.useContext(AppContext);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [companies, setCompanies] = useState([] as CompanyModel[]);
@@ -129,6 +131,7 @@ const CompanyComponent = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Companies
                     </Typography>
+                    {userProfile.role !== "Student" &&  <>
                     <Button
                         variant="contained"
                         color="success"
@@ -139,6 +142,7 @@ const CompanyComponent = () => {
                         }}>
                         Add Company
                     </Button>
+                    </>}
                 </Toolbar>
             </AppBar>
             <TableContainer sx={{ maxHeight: 440 }}>

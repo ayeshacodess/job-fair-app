@@ -16,10 +16,9 @@ import { Link } from 'react-router-dom'
 import { AppContext } from '../Context/AppContext';
 const pages = [
 	{ name: 'Login', linkKey: 'login' },
-	// { name: 'Register', linkKey: 'register' },
-	{ name: 'CompanySignUP', linkKey: 'CompanySignUP' },
+	{ name: 'CompanySignUP', linkKey: 'CompanySignUP' }
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);

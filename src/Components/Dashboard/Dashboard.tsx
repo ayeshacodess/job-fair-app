@@ -18,6 +18,8 @@ import SocietyMember from '../societyMembers/SocietyMember';
 import UploadCV from '../CV/UploadCV';
 import { AppContext } from '../Context/AppContext';
 import GenerateSchedule from '../Schedule/GenerateSchedule';
+import { Stack } from '@mui/material';
+import Feedback from '../Feedback/Feedback';
 
 const drawerWidth: number = 240;
 
@@ -62,7 +64,7 @@ function DashboardContent() {
 		setRenderItem(clickedItem);
 	}
 	console.log(userProfile);
-	return (
+	return ( 
 		<ThemeProvider theme={mdTheme}>
 			<Box sx={{ display: 'flex' }}>
 				
@@ -100,34 +102,58 @@ function DashboardContent() {
 					<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 						<Grid container spacing={3}>
 							{renderItem === MenuItemList.Dashboard && 
-								<p>
-									Hi, welcome to you dashboard!
-								</p>
+								<Stack >
+									<h3>
+										Hello {userProfile.name}!
+									</h3>
+									<p>
+										Welcome to Barani Institute of Science and Technology, Rawalpindi.
+									</p>
+								</Stack>
 							}
-							{renderItem === MenuItemList.Student && 
-								<Students />
-							}
-							{renderItem === MenuItemList.Skill && 
-								<SkillComponent />
-							}
-							{renderItem === MenuItemList.Company && 
-							 	<CompanyComponent />
-							}
-							{renderItem === MenuItemList.SocietyMember &&
-							  <SocietyMember />
-							}
-							{renderItem === MenuItemList.UploadCV &&
-							  	<UploadCV />
-							}
-							{renderItem === MenuItemList.GenerateSchedule &&
-							  	<GenerateSchedule />
-							}
+							{userProfile.role === "Student" &&  <>
+								{renderItem === MenuItemList.UploadCV &&
+									<UploadCV />
+								}
+								{renderItem === MenuItemList.Company && 
+							 		<CompanyComponent />
+								}
+								{
+									renderItem === MenuItemList.Feedback && 
+									<Feedback />
+								}
+							</>}
+							{userProfile.role === "Company" &&  <>
+								{renderItem === MenuItemList.Schedule && 
+									<Students />
+								}
+							</>}
+							{(userProfile.role === "Admin" || userProfile.role === "SocietyMember") &&  <>
+								{renderItem === MenuItemList.Student && 
+									<Students />
+								}
+								{renderItem === MenuItemList.Skill && 
+									<SkillComponent />
+								}
+								{renderItem === MenuItemList.Company && 
+									<CompanyComponent />
+								}
+								{renderItem === MenuItemList.SocietyMember &&
+									<SocietyMember />
+								}
+								{renderItem === MenuItemList.UploadCV &&
+									<UploadCV />
+								}
+								{renderItem === MenuItemList.GenerateSchedule &&
+									<GenerateSchedule />
+								}
+							</>}
 						</Grid>
 					</Container>
 				</Box>
 			</Box>
-		</ThemeProvider>
-	);
+		</ThemeProvider>	
+		);
 }
 
 export default function Dashboard() {

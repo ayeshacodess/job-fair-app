@@ -9,7 +9,7 @@ const GenerateSchedule = () => {
     const [skills, setSkills] = useState([] as Skill[]);
     const [selectedSkill, setSelectedSkill] = useState(0);
     const [companies, setCompanies] = useState([] as Company[]);
-    const [selectedCompanies, setSelectedCompanies] = useState([] as Company[]);
+    const [selectedCompanies, setSelectedCompanies] = useState([] as number[]);
     const [students, setStudents] = useState([] as Student[]);
     const [selectedStudents, setSelectedStudents] = useState([] as number[]);
 
@@ -24,62 +24,49 @@ const GenerateSchedule = () => {
         setCompanies(companiesFromDb);
         var studentsFromDb = await getData<Student[]>("https://localhost:44309/api/students");
         setStudents(studentsFromDb);
-    }
+    };
 
     const handleSkillChange = (event: SelectChangeEvent<number>) => {
         setSelectedSkill(event.target.value as number);
     };
+
     function handleCompanyChange(event: SelectChangeEvent<number[]>, child: ReactNode) {
-        console.log("Company Select", event, child); //just log on cosole, and observe which data is in child
-        //setSelectedCompanies(companies);
-    }
+        console.log("Company Selected", event, child);
+        if (child && typeof child === 'object' && 'value' in child) {
+            const company: number[] = child.value as number[];
+            setSelectedCompanies(company);
+        }
+    };
 
     function handleStudentChange(event: SelectChangeEvent<Student[]>, child: ReactNode) {
         console.log("Student Slecte", event, child)
         //setSelectedStudents(student_Id);
-    }
+    };
 
-    return (
-        <Grid>
+    return (<>
+        <Grid container gap={1}>
             <Grid item xs={12} sm={6}>
-                <FormControl >
+                <FormControl 
+                    fullWidth>
                     <InputLabel id="skill">Select Skill</InputLabel>
                     <Select
                         labelId="skill"
                         id="skill"
                         value={selectedSkill}
                         label="Select Skill"
-                        onChange={handleSkillChange}
-                    >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        {/* Jani, observeur mistake g am observing */}
+                        onChange={handleSkillChange}>
                         {skills.map(skill => <MenuItem value={skill.id}> {skill.technology} </MenuItem>)}
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+                <FormControl fullWidth>
                     <InputLabel id="demo-select-small-label">Companies</InputLabel>
                     <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        multiple
-                        value={selectedCompanies.map(company => company.id)}
-                        label="Companies that required the selected skills"
-                        onChange={handleCompanyChange}
-                    >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-
-                        {companies.map(company =>
-                            <MenuItem value={company.id}>
-                                {/* //u have to show company name, not company skill - it was simple jan, u dont have to worries, isi liy kaha tha page py draw kr k code bad mai kro*/}
-                                {company.name}
-                            </MenuItem>)}
-
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label="Select Skill"> 
+                         {companies.map(company => <MenuItem value={10}> {company.name}</MenuItem>)}
                     </Select>
                 </FormControl>
             </Grid>
@@ -87,36 +74,34 @@ const GenerateSchedule = () => {
             <Grid item xs={12} sm={6}>
                 <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                     <InputLabel id="demo-select-small-label">Students</InputLabel>
-                    <Select
-                        labelId="demo-select-small-label"
-                        id="demo-select-small"
-                        multiple
-                        value={students}
-                        label="Age"
-                        onChange={handleStudentChange}
-                    >
-                        <MenuItem value="">
-                            <em>None</em>
-                        </MenuItem>
-                        {students.map(student => <MenuItem value={student.id}> {student.name} </MenuItem>)}
+                    {/* <Select
+                            labelId="demo-select-small-label"
+                            id="demo-select-small"
+                            multiple
+                            value={students}
+                            label="Age"
+                            onChange={handleStudentChange}
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {students.map(student => <MenuItem value={student.id}> {student.name} </MenuItem>)}
 
-                    </Select>
+                        </Select> */}
                 </FormControl>
             </Grid>
             <Grid>
                 <Button
                     type="submit"
                     fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                >
+                    variant="contained">
                     Generate Schedule
                 </Button>
             </Grid>
         </Grid>
-
-
+    </>
     )
 }
 
-export default GenerateSchedule
+
+export default GenerateSchedule;
