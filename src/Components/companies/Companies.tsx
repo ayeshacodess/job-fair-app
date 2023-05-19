@@ -60,15 +60,15 @@ const CompanyComponent = () => {
     const [selectedCompany, setSelectedCompany] = React.useState({} as Company);
     const [openAddEditCompanyDialogue, setOpenAddEditCompanyDialogue] = useState(false);
 
-    React.useEffect(
-        () => {
+    React.useEffect(() => {
             fetchCompanies();
-        }, []
-    )
+        }, []);
+
     const fetchCompanies = async () => {
-        var companiesFromDb = await getData<CompanyModel[]>("https://localhost:44309/api/companies/{id}");
+        var companiesFromDb = await getData<CompanyModel[]>(`https://localhost:44309/api/companies?role=${userProfile.role}&userId=${userProfile.userProfileId}`);
         setCompanies(companiesFromDb);
-    }    
+    }
+
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     }
@@ -77,6 +77,18 @@ const CompanyComponent = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
+
+    const acceptRejectCompany = async (status: string, companyId: number) => {
+        var url = `https://localhost:44309/api/company/status?status=${status}&companyId=${companyId}`;
+        var com = await getData<CompanyModel[]>(url);
+        setCompanies(com);
+    }
+
+    const select_UnselectCompany = async (companyId: number) => {
+        var url = `https://localhost:44309/api/company/studentapply?companyId=${companyId}&studentId=${userProfile.userProfileId}`;
+        var com = await getData<CompanyModel[]>(url);
+        setCompanies(com);
+    }
 
     const createData = (currentCompany: CompanyModel): CompanyModel => {
         return { 
@@ -91,26 +103,44 @@ const CompanyComponent = () => {
             skills: currentCompany.skills,
             userId: currentCompany.userId,
             action: <div>
-                <Button
-                    variant="contained"
-                    color="success"
-                    size="medium"
-                    onClick={() => {
-                        // setSelectedCompany(currentCompany);
-                        // setOpenAddCompanyDialog(true);
-                        alert('comming soon.... !');
-                    }}>
-                    Edit
-                </Button>
-                <Button
-                    variant="outlined"
-                    color="error"
-                    size="medium"
-                    onClick={() => {
-                        alert('comming soon.... !');
-                    }}>
-                    Delete
-                </Button>
+                {(userProfile.role === "Admin" || userProfile.role === "SocietyMember") && 
+                    <>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            size="medium"
+                            onClick={() => acceptRejectCompany("Accept", currentCompany.id)}>
+                            Accept
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            size="medium"
+                            onClick={() => acceptRejectCompany("Reject", currentCompany.id)}>
+                            Reject
+                        </Button>
+                    </>
+                }
+                {userProfile.role === "Student" && 
+                    <>
+                        <Button
+                            disabled={currentCompany.status === "Selected"}
+                            variant="contained"
+                            color="success"
+                            size="medium"
+                            onClick={() => select_UnselectCompany(currentCompany.id)}>
+                            Select
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            disabled={currentCompany.status !== "Selected"}
+                            color="error"
+                            size="medium"
+                            onClick={() => select_UnselectCompany(currentCompany.id)}>
+                            UN-Select
+                        </Button>
+                    </>
+                }
             </div>
         };
     }

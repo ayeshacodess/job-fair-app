@@ -28,7 +28,7 @@ export default function SignInSide() {
 
 		const data = new FormData(event.currentTarget);
 		var params = {
-			email: data.get('username'),
+			username: data.get('username'),
 			password: data.get('password'),
 		}
 

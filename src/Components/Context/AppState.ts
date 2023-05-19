@@ -2,6 +2,7 @@ import { LoginModel } from "../Model/LoginModels";
 
 export interface UserProfile {
     Id: number;
+    userProfileId: number;
     name: string;
     username: string;
     role: string;
@@ -12,6 +13,7 @@ export interface UserProfile {
 
 export const initialUserProfile: UserProfile = {
     aridNumber: "",
+    userProfileId: 0,
     name: "",
     cgpa: "",
     email: "",
@@ -29,7 +31,7 @@ export interface AppState {
     logout?: () => void,
 }
 
-export const initialState: AppState = {
+export const initialAppState: AppState = {
     isLoggedIn: false,
     isLoginPending: false,
     loginError: undefined,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppState, UserProfile, initialState, initialUserProfile } from "./AppState";
+import { AppState, UserProfile, initialAppState, initialUserProfile } from "./AppState";
 import { LoginModel } from "../Model/LoginModels";
 import { getData } from "../Helper/httpClient";
 import { AppContext } from "./AppContext";
@@ -20,7 +20,7 @@ const ContextProvider = (props: any) => {
         setUserProfile(initialUserProfile);
     }
 
-    const temp = Object.assign({}, initialState, {login, logout});
+    const temp = Object.assign({}, initialAppState, {login, logout});
 
     const [appState, setAppState] = useState(temp);
   

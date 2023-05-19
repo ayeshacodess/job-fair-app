@@ -4,8 +4,11 @@ import { getData } from '../Helper/httpClient';
 import { Skill } from '../Model/SkillModels';
 import { Company } from '../Model/CompanyModels';
 import { Student } from '../Model/StudentModels';
+import { AppContext } from '../Context/AppContext';
 
 const GenerateSchedule = () => {
+    const { userProfile } = React.useContext(AppContext);
+    
     const [skills, setSkills] = useState([] as Skill[]);
     const [selectedSkill, setSelectedSkill] = useState(0);
     const [companies, setCompanies] = useState([] as Company[]);
@@ -20,7 +23,7 @@ const GenerateSchedule = () => {
     const fetchSkillsCompaniesStudents = async () => {
         var skillsFromDb = await getData<Skill[]>("https://localhost:44309/api/skill/Get");
         setSkills(skillsFromDb);
-        var companiesFromDb = await getData<Company[]>("https://localhost:44309/api/companies");
+        var companiesFromDb = await getData<Company[]>(`https://localhost:44309/api/companies?role=${userProfile.role}&userId=${userProfile.userProfileId}`);
         setCompanies(companiesFromDb);
         var studentsFromDb = await getData<Student[]>("https://localhost:44309/api/students");
         setStudents(studentsFromDb);
