@@ -6,6 +6,12 @@ import { Student, StudentSkill } from '../Model/StudentModels';
 import { AppContext } from '../Context/AppContext';
 
 const UploadCV = () => {
+// start 
+
+const [file, setFile] = React.useState("")
+
+
+// end
     const { userProfile } = useContext(AppContext);
     const [values, setValues] = useState<Student>({} as Student);
      const  [skills, setSkills] = useState([] as Skill[]);
@@ -50,7 +56,8 @@ const UploadCV = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        var data = Object.assign({}, values, { userId: userProfile.Id, aridNumber: userProfile.aridNumber })
+        var data = Object.assign({}, values, { userId: userProfile.Id, aridNumber: userProfile.aridNumber,file:selectedFile })
+        
         postData<Student>("https://localhost:44309/api/student/uploadcv", data);
     }
 
@@ -64,14 +71,19 @@ const UploadCV = () => {
     }
 
     const handleUploadCVFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const name=event.target.name
         const file = event.target.files;
+        
         if (file && file.length > 0) {
-            const selectedFile = file[0];
+            const selectFile = file[0];
             // Handle the selected file as needed
-            console.log('Selected file:', selectedFile);
-            setSelectedFile(selectedFile);
+            // console.log('Selected file:', );
+            setSelectedFile(selectFile as File);
+            setValues({ ...values, [name]: selectedFile.name, });
         }
     }
+    // first show api and post it // api se kesy hoga is function ko kafi kuch ja ra h cv k elawa
+    // show me the
     return (
 
         <form onSubmit={handleSubmit} >
@@ -124,12 +136,15 @@ const UploadCV = () => {
                             onChange={handleChange}
                         />
                     </Grid>
+                    <input  type="file"  name='cvpath' onChange={(e) => {
+             handleUploadCVFile(e)
+            }}  />
                 </Grid>
 
                 <FormLabel component='legend' style={{ marginTop: '2rem', paddingLeft: '2rem' }}>
                     Select your Skill(s)
                 </FormLabel>
-                <FormGroup>
+                {/* <FormGroup>
                 <Grid container spacing={2} padding={2} >
                         <Grid item xs={12} sm={4}>
                             <FormControlLabel
@@ -162,7 +177,7 @@ const UploadCV = () => {
                             />
                         </Grid>
                     </Grid>
-                </FormGroup>
+                </FormGroup> */}
                 <Grid container spacing={2} padding={2} >
                     {selectedSkills.length > 0 && selectedSkills.map(selectedSkill => <>
                         <Grid item xs={12} sm={6}>
@@ -172,6 +187,10 @@ const UploadCV = () => {
                                 fullWidth
                                 value={skills.filter(s => s.id == selectedSkill.skill_Id)?.[0].technology}
                             />
+
+
+
+
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
@@ -245,13 +264,14 @@ const UploadCV = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    required
+                                    aria-readonly
+                                    value={userProfile.FypGrade}
                                     id="FypGrade"
                                     name="FypGrade"
                                     label="'FYP Grade"
                                     fullWidth
                                     autoComplete="FYP-grade"
-                                    onChange={handleChange}
+                                    
                                 />
                             </Grid>
                         </Grid>

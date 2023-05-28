@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box } from '@mui/material';
 import { Skill } from '../Model/SkillModels';
+import { postData } from '../Helper/httpClient';
 
 interface AddEditSkillProp {
     openDialog: boolean;
@@ -22,14 +23,9 @@ const AddEditSkill = (props: AddEditSkillProp) => {
         handleDialog(false);
     };
 
-    const handleOnSave = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSave = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            id: selectedSkill?.id,
-            technology: data.get('technology'),
-        });
-        alert("Save Clicked")
+        var skills = await postData<Skill>("https://localhost:44309/api/addSkills", skill);
     }
 
     return (

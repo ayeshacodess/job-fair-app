@@ -6,9 +6,9 @@ import CompanySignUp from './Components/companies/CompanySignUp';
 export const MainApp = () => {
     return (
         <Routes>
-            <Route path='' element={<Dashboard />} />
+            <Route path='/' element={<Dashboard />} />
             <Route path='Register' element={<Register />} />
-            { <Route path='CompanySignUp' element={<CompanySignUp />} /> }
+            { <Route path='/CompanySignUp' element={<CompanySignUp />} /> }
         </Routes>
     )
 }

@@ -3,12 +3,11 @@ import React, { useState } from "react";
 import { getData } from "../Helper/httpClient";
 import { Company } from "../Model/CompanyModels";
 import { Student } from "../Model/StudentModels";
-import AddEditCompany from "../companies/AddEditCompany";
 import AddEditStudent from "./AddEditStudent";
 
 
 interface Column {
-    id: 'id' | 'name' | 'aridNumber' | 'studyStatus' | 'contact1' | 'gender' | 'cgpa' | 'action' ;
+    id: 'id' | 'name' | 'aridNumber' | 'studyStatus' | 'contact1' | 'gender' | 'action';
     label: string;
     minWidth?: number;
     align?: 'center'
@@ -42,20 +41,15 @@ const columns: readonly Column[] = [
         format: (value: boolean) => value ? "Male" : "Female",
         minWidth: 50
     },
-	{
-        id: 'cgpa',
-        label: 'CGPA',
-        minWidth: 50
-    },
-	{
+    {
         id: 'action',
         label: 'Action',
         minWidth: 170
     },
 ];
 
-interface StudentModel extends Student{
-	action : JSX.Element;
+interface StudentModel extends Student {
+    action: JSX.Element;
 }
 
 const StudentComponent = () => {
@@ -73,7 +67,7 @@ const StudentComponent = () => {
     const fetchStudents = async () => {
         var studentsFromDb = await getData<StudentModel[]>("https://localhost:44309/api/students");
         setStudents(studentsFromDb);
-    }    
+    }
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     }
@@ -83,17 +77,26 @@ const StudentComponent = () => {
         setPage(0);
     };
 
+    const handleDeleteStudent = async (status: string, studentId: number) => {
+        var url = `https://localhost:44309/api/student/delete?status=${status}&studentId=${studentId}`;
+        var std = await getData<StudentModel[]>(url);
+        alert(std);
+        var studentsFromDb = await getData<StudentModel[]>("https://localhost:44309/api/students");
+        setStudents(studentsFromDb);
+        // setStudents(std);
+    }
+
+
     const createData = (currentStudent: StudentModel): StudentModel => {
         return {
             id: currentStudent.id,
             name: currentStudent.name,
             aridNumber: currentStudent.aridNumber,
-            cgpa: currentStudent.cgpa,
             contact1: currentStudent.contact1,
             contact2: currentStudent.contact2,
             gender: currentStudent.gender,
             userId: currentStudent.userId,
-			studyStatus: currentStudent.studyStatus,
+            studyStatus: currentStudent.studyStatus,
             cvpath: currentStudent.cvpath,
             hasFYP: currentStudent.hasFYP,
             FypTitle: currentStudent.FypTitle,
@@ -101,7 +104,7 @@ const StudentComponent = () => {
             FypGrade: currentStudent.FypGrade,
             studentSkills: currentStudent.studentSkills,
             action: <div>
-                <Button
+                {/* <Button
                     variant="contained"
                     color="success"
                     size="medium"
@@ -111,14 +114,13 @@ const StudentComponent = () => {
                         alert('comming soon.... !');
                     }}>
                     Edit
-                </Button>
+                </Button> */}
                 <Button
                     variant="outlined"
                     color="error"
                     size="medium"
-                    onClick={() => {
-                        alert('comming soon.... !');
-                    }}>
+                    onClick={() => handleDeleteStudent("Delete", currentStudent.id)}>
+
                     Delete
                 </Button>
             </div>
@@ -141,7 +143,7 @@ const StudentComponent = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Students
                     </Typography>
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color="success"
                         onClick={() => {
@@ -150,7 +152,7 @@ const StudentComponent = () => {
                             setOpenAddEditStudentDialogue(true);
                         }}>
                         Add Student
-                    </Button>
+                    </Button> */}
                 </Toolbar>
             </AppBar>
             <TableContainer sx={{ maxHeight: 440 }}>
@@ -169,24 +171,24 @@ const StudentComponent = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows && rows.length > 0 && 
+                        {rows && rows.length > 0 &&
                             rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => {
-                                return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.format ? column.format(value) : value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            }
-                        )}
-                        {(!rows || rows.length === 0) && 
+                                .map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.format ? column.format(value) : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                }
+                                )}
+                        {(!rows || rows.length === 0) &&
                             <TableRow hover role="checkbox" tabIndex={-1}>
                                 <p>No record found !</p>
                             </TableRow>

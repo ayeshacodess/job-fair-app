@@ -6,11 +6,13 @@ import { Company} from '../Model/CompanyModels';
 
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import { useNavigate } from 'react-router';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const CompanySignUpComponent = () => {
+    const navigate = useNavigate();
     const [values, setValues] = useState<Company>({} as Company);
     const [skills, setSkills] = React.useState([] as Skill[]);
 
@@ -38,14 +40,9 @@ const CompanySignUpComponent = () => {
      }
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // const data = new FormData(event.currentTarget);
-        // const params = {
-        //     name: data.get('name'),
-        //     noOfInterviewers: data.get('noOfInterviewers'),
-        //     contact1: data.get('contact1'),
-        //     contact2: data.get('contact2'),
-        //     timeSlot: data.get('timeSlot'),
         postData<Company>("https://localhost:44309/api/company/add", values);
+        alert("Sign up Successfully, will inform you after your Registeration");
+        navigate("/");
     }
 
 
@@ -85,6 +82,17 @@ const CompanySignUpComponent = () => {
                                     id="name"
                                     label="Company Name"
                                     value={values.name}
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    name="email"
+                                    id="email"
+                                    label="Email"
+                                    value={values.email}
                                     onChange={handleChange}
                                 />
                             </Grid>

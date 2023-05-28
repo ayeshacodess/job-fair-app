@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
-import { getData } from '../Helper/httpClient';
+import { getData, postData } from '../Helper/httpClient';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -52,7 +52,7 @@ const SkillComponent = () => {
     }, [])
 
     const fetchSkills = async () => {
-        var skillsFromDb = await getData<SkillModel[]>("https://localhost:44309/api/skill/Get");
+        var skillsFromDb = await postData<SkillModel[]>("https://localhost:44309/api/skill/Get");
         setSkills(skillsFromDb);
     }
 
@@ -65,6 +65,10 @@ const SkillComponent = () => {
         setPage(0);
     };
 
+    const handleDelete = async (id: number) =>{
+   await getData(`https://localhost:44309/api/skill/delete?skill_Id=${id}`);
+   fetchSkills();
+    }
     const createData = (currentSkill: SkillModel): SkillModel => {
         return { 
             id: currentSkill.id, 
@@ -85,7 +89,7 @@ const SkillComponent = () => {
                     color="error" 
                     size="medium" 
                     onClick={() => {
-                        alert('comming soon.... !');
+                        handleDelete(currentSkill.id);
                     }}>
                     Delete
                 </Button>
@@ -180,3 +184,7 @@ const SkillComponent = () => {
     );
 }
 export default SkillComponent;
+
+function post<T>(arg0: string, id: number) {
+    throw new Error('Function not implemented.');
+}

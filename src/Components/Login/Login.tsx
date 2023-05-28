@@ -16,13 +16,15 @@ import Copyright from '../Shared/Copyright';
 import { AppContext } from '../Context/AppContext';
 import { LoginModel } from "../Model/LoginModels";
 import { FormEvent, useContext, useState } from 'react';
+import { useNavigate } from 'react-router';
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function Login() {
 	const {login} = useContext(AppContext);
 	const [redirectToDashboard, setRedirectToDashboard] = useState(false);
 	
+	const navigate = useNavigate();
 	const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
@@ -33,6 +35,7 @@ export default function SignInSide() {
 		}
 
 		login && login(params as LoginModel);
+        navigate('/Dashboard');
 	}
 
 	return (
@@ -104,8 +107,10 @@ export default function SignInSide() {
 							</Button>
 							<Grid container>
 								<Grid item xs>
-									<Link href="/login" variant="body2">
-										Forgot password?
+									<Link onClick={() => {
+                                         navigate("/CompanySignUp")
+									}} variant="body2">
+										Create new Account ?
 									</Link>
 								</Grid>
 							</Grid>

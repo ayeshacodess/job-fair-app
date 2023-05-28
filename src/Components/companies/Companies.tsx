@@ -14,7 +14,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import { Company } from '../Model/CompanyModels';
-import AddEditCompany from './AddEditCompany';
 import { AppContext } from '../Context/AppContext';
 
 interface Column {
@@ -102,6 +101,7 @@ const CompanyComponent = () => {
             profile: currentCompany.profile,
             skills: currentCompany.skills,
             userId: currentCompany.userId,
+            email: currentCompany.email,
             action: <div>
                 {(userProfile.role === "Admin" || userProfile.role === "SocietyMember") && 
                     <>
@@ -161,18 +161,17 @@ const CompanyComponent = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Companies
                     </Typography>
-                    {userProfile.role !== "Student" &&  <>
+                    {/* {userProfile.role !== "Student" &&  <>
                     <Button
                         variant="contained"
                         color="success"
                         onClick={() => {
-                            //alert("Comming soon....!");
                             setSelectedCompany({} as Company);
                             setOpenAddEditCompanyDialogue(true);
                         }}>
                         Add Company
                     </Button>
-                    </>}
+                    </>} */}
                 </Toolbar>
             </AppBar>
             <TableContainer sx={{ maxHeight: 440 }}>
@@ -225,11 +224,7 @@ const CompanyComponent = () => {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            <AddEditCompany 
-                openDialog={openAddEditCompanyDialogue}
-                selectedCompany={selectedCompany}
-                handleDialog={handleDialog}
-            />
+            
         </Paper>
     )
 }

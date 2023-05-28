@@ -65,12 +65,6 @@ const MenuItems = (props: MenuItemProps) => {
 			</ListItemIcon>
 			<ListItemText primary="Skills" />
 		</ListItemButton>
-		<ListItemButton onClick={() => onClickHandler(MenuItemList.UploadCV)}>
-			<ListItemIcon>
-				<LayersIcon />
-			</ListItemIcon>
-			<ListItemText primary="Upload CV" />
-		</ListItemButton>
 		<ListItemButton onClick={() => onClickHandler(MenuItemList.GenerateSchedule)}>
 			<ListItemIcon>
 				<LayersIcon />

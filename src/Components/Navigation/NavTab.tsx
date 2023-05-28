@@ -15,7 +15,7 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { Link } from 'react-router-dom'
 import { AppContext } from '../Context/AppContext';
 const pages = [
-	{ name: 'Login', linkKey: 'login' },
+	{ name: 'Login', linkKey: '' },
 	{ name: 'CompanySignUP', linkKey: 'CompanySignUP' }
 ];
 const settings = ['Dashboard', 'Logout'];
@@ -94,16 +94,18 @@ function ResponsiveAppBar() {
 								display: { xs: 'block', md: 'none' },
 							}}
 						>
-							{pages.map((page) => (
+							{/* {pages.map((page) => ( */}
 								!isLoggedIn && 
-								<MenuItem key={page.linkKey} onClick={handleCloseNavMenu}>
+								<MenuItem 
+								// key={page.linkKey} 
+								onClick={handleCloseNavMenu}>
 									<Typography textAlign="center">
-										<Link to={`/${page.linkKey}`}>
-											{page.name}
+										<Link to='/'>
+											Login
 										</Link>
 									</Typography>
 								</MenuItem>
-							))}
+							{/* ))} */}
 						</Menu>
 					</Box>
 					<DirectionsRunIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />

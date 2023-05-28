@@ -1,103 +1,93 @@
-import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Button } from '@mui/material'
+import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Button, TextField, Typography } from '@mui/material'
 import React, { ReactNode, useState } from 'react'
-import { getData } from '../Helper/httpClient';
+import { getData, postData } from '../Helper/httpClient';
 import { Skill } from '../Model/SkillModels';
 import { Company } from '../Model/CompanyModels';
-import { Student } from '../Model/StudentModels';
 import { AppContext } from '../Context/AppContext';
+import { Schedule } from '../Model/ScheduleModels';
+
 
 const GenerateSchedule = () => {
     const { userProfile } = React.useContext(AppContext);
-    
-    const [skills, setSkills] = useState([] as Skill[]);
-    const [selectedSkill, setSelectedSkill] = useState(0);
+    const [scheduleValues, setScheduleValues] = useState<Schedule>({} as Schedule);
+    const [selectedCompany, setSelectedCompany] = useState(0);
     const [companies, setCompanies] = useState([] as Company[]);
-    const [selectedCompanies, setSelectedCompanies] = useState([] as number[]);
-    const [students, setStudents] = useState([] as Student[]);
-    const [selectedStudents, setSelectedStudents] = useState([] as number[]);
-
     React.useEffect(() => {
-        fetchSkillsCompaniesStudents();
+        fetchCompanies();
     }, [])
 
-    const fetchSkillsCompaniesStudents = async () => {
-        var skillsFromDb = await getData<Skill[]>("https://localhost:44309/api/skill/Get");
-        setSkills(skillsFromDb);
+    const fetchCompanies = async () => {
         var companiesFromDb = await getData<Company[]>(`https://localhost:44309/api/companies?role=${userProfile.role}&userId=${userProfile.userProfileId}`);
         setCompanies(companiesFromDb);
-        var studentsFromDb = await getData<Student[]>("https://localhost:44309/api/students");
-        setStudents(studentsFromDb);
     };
 
-    const handleSkillChange = (event: SelectChangeEvent<number>) => {
-        setSelectedSkill(event.target.value as number);
+
+    function handleCompanySelectChange(event: SelectChangeEvent<number>, child: ReactNode) {
+        setSelectedCompany(event.target.value as number);
     };
 
-    function handleCompanyChange(event: SelectChangeEvent<number[]>, child: ReactNode) {
-        console.log("Company Selected", event, child);
-        if (child && typeof child === 'object' && 'value' in child) {
-            const company: number[] = child.value as number[];
-            setSelectedCompanies(company);
-        }
+    function handleRoomSelectChange(event: SelectChangeEvent<number>, child: ReactNode) {
+        setSelectedCompany(event.target.value as number);
     };
 
-    function handleStudentChange(event: SelectChangeEvent<Student[]>, child: ReactNode) {
-        console.log("Student Slecte", event, child)
-        //setSelectedStudents(student_Id);
-    };
+    var ob = Object.assign({}, scheduleValues, { selectedCompany, UserProfile: userProfile.Id });
+    const handleSubmit = async () => {
+        var com = await postData<Schedule[]>("https://localhost:44309/api/schedule/generate", ob);
+    }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const name = event.target.name;
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
 
+        setScheduleValues({ ...scheduleValues, [name]: value, });
+    }
     return (<>
+        <Typography variant="h6" component="h2" style={{ textDecoration: 'underline' }} sx={{ mt: 4, padding: 6, textAlign: 'center' }}>
+            Schedule
+        </Typography>
         <Grid container gap={1}>
             <Grid item xs={12} sm={6}>
-                <FormControl 
+                <FormControl
                     fullWidth>
-                    <InputLabel id="skill">Select Skill</InputLabel>
+                    <InputLabel id="company">Select Company</InputLabel>
                     <Select
-                        labelId="skill"
-                        id="skill"
-                        value={selectedSkill}
-                        label="Select Skill"
-                        onChange={handleSkillChange}>
-                        {skills.map(skill => <MenuItem value={skill.id}> {skill.technology} </MenuItem>)}
+                        labelId="company"
+                        id="company"
+                        value={selectedCompany}
+                        label="Select Company"
+                        onChange={handleCompanySelectChange}>
+                        {companies.map(company => <MenuItem value={company.id}> {company.name} </MenuItem>)}
                     </Select>
                 </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-select-small-label">Companies</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Select Skill"> 
-                         {companies.map(company => <MenuItem value={10}> {company.name}</MenuItem>)}
-                    </Select>
-                </FormControl>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="allocatedRoom"
+                    label="Allocate Room to company"
+                    id="allocatedRoom"
+                    onChange={handleChange}
+                />
             </Grid>
-
             <Grid item xs={12} sm={6}>
-                <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-                    <InputLabel id="demo-select-small-label">Students</InputLabel>
-                    {/* <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            multiple
-                            value={students}
-                            label="Age"
-                            onChange={handleStudentChange}
-                        >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            {students.map(student => <MenuItem value={student.id}> {student.name} </MenuItem>)}
-
-                        </Select> */}
-                </FormControl>
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="timeDuration"
+                    label="Time Duration"
+                    id="timeduration"
+                    type='number'
+                    onChange={handleChange}
+                />
             </Grid>
-            <Grid>
+            <Grid item md={12} lg={12}>
                 <Button
                     type="submit"
-                    fullWidth
-                    variant="contained">
+                    onClick={handleSubmit}
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}>
                     Generate Schedule
                 </Button>
             </Grid>

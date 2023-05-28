@@ -1,14 +1,15 @@
 import { LoginModel } from "../Model/LoginModels";
 
 export interface UserProfile {
-    Id: number;
-    userProfileId: number;
+    Id: number; //user table id
+    userProfileId: number; // student table id
     name: string;
     username: string;
     role: string;
     email: string;
     aridNumber: string;
     cgpa: string;
+    FypGrade: string;
 }
 
 export const initialUserProfile: UserProfile = {
@@ -19,7 +20,8 @@ export const initialUserProfile: UserProfile = {
     email: "",
     Id: 0,
     role: "",
-    username: ""
+    username: "",
+    FypGrade: ""
 }
 
 export interface AppState {

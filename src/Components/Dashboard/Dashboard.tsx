@@ -141,9 +141,6 @@ function DashboardContent() {
 								{renderItem === MenuItemList.SocietyMember &&
 									<SocietyMember />
 								}
-								{renderItem === MenuItemList.UploadCV &&
-									<UploadCV />
-								}
 								{renderItem === MenuItemList.GenerateSchedule &&
 									<GenerateSchedule />
 								}

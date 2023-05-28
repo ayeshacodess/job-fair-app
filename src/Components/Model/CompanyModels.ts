@@ -12,5 +12,6 @@ export interface Company {
     profile: string;
     status: string;
     skills: Skill[];
+    email: string;
    // skill_Ids: number;
 }
