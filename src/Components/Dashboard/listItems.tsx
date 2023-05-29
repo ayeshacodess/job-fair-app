@@ -35,12 +35,6 @@ const MenuItems = (props: MenuItemProps) => {
 			</ListItemIcon >
 			<ListItemText primary="Dashboard" />
 		</ListItemButton>
-		<ListItemButton onClick={() => onClickHandler(MenuItemList.Schedule)}>
-			<ListItemIcon>
-				<ShoppingCartIcon />
-			</ListItemIcon>
-			<ListItemText primary="Schedule" />
-		</ListItemButton>
 		<ListItemButton onClick={() => onClickHandler(MenuItemList.Student)}>
 			<ListItemIcon>
 				<ShoppingCartIcon />
@@ -70,6 +64,12 @@ const MenuItems = (props: MenuItemProps) => {
 				<LayersIcon />
 			</ListItemIcon>
 			<ListItemText primary="Generate Schedule" />
+		</ListItemButton>
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.Schedule)}>
+			<ListItemIcon>
+				<LayersIcon />
+			</ListItemIcon>
+			<ListItemText primary="Schedule" />
 		</ListItemButton>
 	</React.Fragment>
 

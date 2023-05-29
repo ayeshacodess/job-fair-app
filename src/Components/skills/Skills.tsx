@@ -42,7 +42,7 @@ interface SkillModel extends Skill {
 
 const SkillComponent = () => {
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(25);
     const [skills, setSkills] = React.useState([] as SkillModel[]);
     const [selectedSkill, setSelectedSkill] = React.useState({} as Skill);
     const [openAddEditSkillDialog, setOpenAddEditSkillDialog] = React.useState(false);
@@ -52,7 +52,7 @@ const SkillComponent = () => {
     }, [])
 
     const fetchSkills = async () => {
-        var skillsFromDb = await postData<SkillModel[]>("https://localhost:44309/api/skill/Get");
+        const skillsFromDb = await getData<SkillModel[]>("https://localhost:44309/api/skill/Get");
         setSkills(skillsFromDb);
     }
 
@@ -66,9 +66,23 @@ const SkillComponent = () => {
     };
 
     const handleDelete = async (id: number) =>{
-   await getData(`https://localhost:44309/api/skill/delete?skill_Id=${id}`);
-   fetchSkills();
+        let newSkills = await getData<SkillModel[]>(`https://localhost:44309/api/skill/delete?skill_Id=${id}`);
+        setSkills(newSkills);
     }
+
+    const handleOnSkillClick = (skillM: SkillModel) => {
+        debugger;
+        console.log(skillM);
+        
+        const skillData: Skill = {
+            id: skillM.id,
+            technology: skillM.technology
+        };
+
+        setSelectedSkill(skillData);
+        setOpenAddEditSkillDialog(true);
+    }
+
     const createData = (currentSkill: SkillModel): SkillModel => {
         return { 
             id: currentSkill.id, 
@@ -77,19 +91,17 @@ const SkillComponent = () => {
                 <Button 
                     variant="contained" 
                     color="success" 
-                    size="medium" 
-                    onClick={() => {
-                        setSelectedSkill(currentSkill);
-                        setOpenAddEditSkillDialog(true);
-                    }}>
+                    size="small" 
+                    style={{marginRight: '5px'}}
+                    onClick={() => handleOnSkillClick(currentSkill)}>
                     Edit
                 </Button>
                 <Button 
                     variant="outlined" 
                     color="error" 
-                    size="medium" 
+                    size="small" 
                     onClick={() => {
-                        handleDelete(currentSkill.id);
+                        handleDelete(currentSkill.id); 
                     }}>
                     Delete
                 </Button>
@@ -101,6 +113,7 @@ const SkillComponent = () => {
         if (!value) {
             setOpenAddEditSkillDialog(value);
             setSelectedSkill({} as Skill);
+            fetchSkills();
         }
     }
     
@@ -159,7 +172,7 @@ const SkillComponent = () => {
                         )}
                         {(!rows || rows.length === 0) && 
                             <TableRow hover role="checkbox" tabIndex={-1}>
-                                <p>No record found !</p>
+                                <TableCell> No record found !</TableCell>
                             </TableRow>
                         }
                     </TableBody>
@@ -184,7 +197,3 @@ const SkillComponent = () => {
     );
 }
 export default SkillComponent;
-
-function post<T>(arg0: string, id: number) {
-    throw new Error('Function not implemented.');
-}

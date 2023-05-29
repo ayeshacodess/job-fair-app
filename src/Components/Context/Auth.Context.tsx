@@ -3,6 +3,8 @@ import { AppState, UserProfile, initialAppState, initialUserProfile } from "./Ap
 import { LoginModel } from "../Model/LoginModels";
 import { getData } from "../Helper/httpClient";
 import { AppContext } from "./AppContext";
+import { useNavigate } from "react-router";
+//var navigate = useNavigate();
 
 const ContextProvider = (props: any) => {
 

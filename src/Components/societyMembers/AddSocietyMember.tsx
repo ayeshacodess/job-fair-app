@@ -4,9 +4,6 @@ import { Member } from '../Model/SocietyMemberModels';
 import { postData } from '../Helper/httpClient';
 import { useNavigate } from 'react-router';
 import { MenuItemList } from '../Helper/SharedModel';
-import SocietyMember from './SocietyMember';
-
-
 
 const AddSocietyMember = () => {
     const navigate = useNavigate();
@@ -35,15 +32,13 @@ const AddSocietyMember = () => {
                     sx={{
                         width: "100%",
                         height: "100%",
-                        bgcolor: "grey.200",
+                        bgcolor: "white",
                         p: 2,
-                        m: 2,
-                        borderRadius: "10px",
-                        boxShadow: 5,
+                        borderRadius: "10px"
                     }}
                 >
                     <>
-                        <Typography variant="h6" component="h2" style={{ textDecoration: 'underline' }} sx={{ mt: 4, padding: 2, textAlign: 'center' }}>
+                        <Typography variant="h6" component="h2" style={{ textDecoration: 'underline' }} sx={{ mt: 2, textAlign: 'center' }}>
                             Society Member
                         </Typography>
                         <Grid container spacing={2} padding={2} alignItems={'center'}>
@@ -85,7 +80,7 @@ const AddSocietyMember = () => {
                                 />
                             </Grid>
                             <FormControl component="fieldset" required>
-                                <FormLabel component="legend" style={{ paddingTop: "2rem", paddingLeft: "2rem" }}>
+                                <FormLabel component="legend" style={{ paddingTop: "2rem", paddingLeft: "3rem" }}>
                                     Gender
                                 </FormLabel>
 
@@ -115,19 +110,18 @@ const AddSocietyMember = () => {
                                     </Grid>
                                 </RadioGroup>
                             </FormControl>
-                           
-
                         </Grid>
-                        <Box sx={{ m: 5 }}>
-                            <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2, }}
-                            >
-                                Add
-                            </Button>
-                        </Box>
+                        <Grid container spacing={2} padding={2} alignItems={'center'}>
+                            <Grid item xs={12} md={4} sm={4}></Grid>
+                            <Grid item xs={12} md={4} sm={4}>
+                                <Button
+                                    fullWidth
+                                    type="submit"
+                                    variant="contained">
+                                    Add
+                                </Button>
+                            </Grid>
+                        </Grid>
                     </>
                 </Box>
             </Box>

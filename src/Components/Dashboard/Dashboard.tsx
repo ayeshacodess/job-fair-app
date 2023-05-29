@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiDrawer from '@mui/material/Drawer';
+import { Drawer as MuiDrawer } from '@mui/material';
+import { Grid, Stack } from '@mui/material';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import MenuItems from './listItems';
 import { MenuItemList } from '../Helper/SharedModel';
@@ -18,8 +18,8 @@ import SocietyMember from '../societyMembers/SocietyMember';
 import UploadCV from '../CV/UploadCV';
 import { AppContext } from '../Context/AppContext';
 import GenerateSchedule from '../Schedule/GenerateSchedule';
-import { Stack } from '@mui/material';
 import Feedback from '../Feedback/Feedback';
+import DisplayScheduleComponent from '../Schedule/DisplaySchedule';
 
 const drawerWidth: number = 240;
 
@@ -122,12 +122,17 @@ function DashboardContent() {
 									renderItem === MenuItemList.Feedback && 
 									<Feedback />
 								}
+								{renderItem === MenuItemList.Schedule && 
+									<DisplayScheduleComponent />
+								}
 							</>}
 							{userProfile.role === "Company" &&  <>
 								{renderItem === MenuItemList.Schedule && 
-									<Students />
+									<DisplayScheduleComponent />
 								}
 							</>}
+
+
 							{(userProfile.role === "Admin" || userProfile.role === "SocietyMember") &&  <>
 								{renderItem === MenuItemList.Student && 
 									<Students />
@@ -143,6 +148,9 @@ function DashboardContent() {
 								}
 								{renderItem === MenuItemList.GenerateSchedule &&
 									<GenerateSchedule />
+								}
+								{renderItem === MenuItemList.Schedule && 
+									<DisplayScheduleComponent />
 								}
 							</>}
 						</Grid>

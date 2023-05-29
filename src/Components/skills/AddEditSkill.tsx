@@ -10,22 +10,40 @@ import { Skill } from '../Model/SkillModels';
 import { postData } from '../Helper/httpClient';
 
 interface AddEditSkillProp {
+    selectedSkill: Skill;
     openDialog: boolean;
     handleDialog: (value: boolean) => void;
-    selectedSkill?: Skill
 }
 
 const AddEditSkill = (props: AddEditSkillProp) => {
     const { openDialog, selectedSkill, handleDialog } = props;
-    const [skill, setSkill] = React.useState({...selectedSkill});
+    const [skill, setSkill] = React.useState({...selectedSkill} as Skill);
 
     const handleClose = () => {
-        handleDialog(false);
+        handleDialog(false); 
     };
 
-    const handleOnSave = async (event: React.FormEvent<HTMLFormElement>) => {
+    React.useEffect(() => {
+        setSkill(selectedSkill);
+    }, [selectedSkill])
+
+    const handleOnSave = async (event: any) => {
+        debugger;
         event.preventDefault();
-        var skills = await postData<Skill>("https://localhost:44309/api/addSkills", skill);
+
+        const skillToSave: Skill = {
+            id: skill.id,
+            technology: skill.technology
+        };
+
+        var dbSkills = await postData<Skill[]>("https://localhost:44309/api/skill/addupdate", skillToSave);
+        handleClose();
+    }
+
+    const handleOnChange = (event: any) => {
+        let temSkill: Skill = {...skill};
+        temSkill.technology = event.target.value;
+        setSkill(temSkill);
     }
 
     return (
@@ -33,7 +51,7 @@ const AddEditSkill = (props: AddEditSkillProp) => {
             <Dialog open={openDialog} onClose={handleClose} fullWidth={true}>
                 <DialogTitle>Skill</DialogTitle>
                 <DialogContent>
-                    <Box component="form" noValidate onSubmit={handleOnSave} sx={{ mt: 1 }}>
+                    <Box sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
@@ -42,21 +60,21 @@ const AddEditSkill = (props: AddEditSkillProp) => {
                             label="Technology"
                             type="text"
                             id="technology"
-                            value={selectedSkill?.technology}
-                            onChange={
-                                (value) => setSkill(Object.assign({}, skill, 
-                                    { technology: value, id: selectedSkill?.id }))
-                            }
+                            value={skill.technology}
+                            onChange={handleOnChange}
                         />
                     </Box>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button
-                        type="submit"
+                        disabled={skill?.technology?.length < 2 || !skill?.technology}
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }}>
-                        Save
+                        type="button"
+                        sx={{ mt: 3, mb: 2 }}
+                        onClick={(e) => handleOnSave(e)}
+                        >
+                     Save
                     </Button>
                 </DialogActions>
             </Dialog>

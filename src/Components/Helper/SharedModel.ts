@@ -4,8 +4,8 @@ export enum MenuItemList {
     Skill,
     SocietyMember,
     Company,
-    Schedule,
     Feedback,
     UploadCV,
     GenerateSchedule,
+    Schedule,
 };
