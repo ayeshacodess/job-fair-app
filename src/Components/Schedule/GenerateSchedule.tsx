@@ -5,9 +5,11 @@ import { Skill } from '../Model/SkillModels';
 import { Company } from '../Model/CompanyModels';
 import { AppContext } from '../Context/AppContext';
 import { Schedule } from '../Model/ScheduleModels';
+import { useNavigate } from 'react-router';
 
 
 const GenerateSchedule = () => {
+    const navigate = useNavigate();
     const { userProfile } = React.useContext(AppContext);
     const [scheduleValues, setScheduleValues] = useState<Schedule>({} as Schedule);
     const [selectedCompany, setSelectedCompany] = useState(0);
@@ -35,7 +37,10 @@ const GenerateSchedule = () => {
         if (!submitObject.selectedCompany || !submitObject.allocatedRoom || !submitObject.timeDuration) {
             alert("Please fill all the values");
         } else {
-            var com = await postData<Schedule[]>("https://localhost:44309/api/schedule/generate", submitObject);
+            let com = await postData<Schedule[]>("https://localhost:44309/api/schedule/generate", submitObject);
+            if (com){
+                navigate('/Dashboard');
+            }
         }
     }
 

@@ -13,4 +13,5 @@ export interface DisplaySchedule {
     interviewed: boolean;
     description: string;
     allocatedRoom: string;
+    isShortListed: boolean;
 }

@@ -76,14 +76,10 @@ const [file, setFile] = React.useState("")
         
         if (file && file.length > 0) {
             const selectFile = file[0];
-            // Handle the selected file as needed
-            // console.log('Selected file:', );
             setSelectedFile(selectFile as File);
             setValues({ ...values, [name]: selectedFile.name, });
         }
     }
-    // first show api and post it // api se kesy hoga is function ko kafi kuch ja ra h cv k elawa
-    // show me the
     return (
 
         <form onSubmit={handleSubmit} >
