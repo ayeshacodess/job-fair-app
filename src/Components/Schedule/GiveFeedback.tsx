@@ -2,14 +2,15 @@ import { Dialog, DialogTitle, DialogContent, Box, TextField, DialogActions, Butt
 import React, { ChangeEvent, useState } from 'react'
 import { Skill } from '../Model/SkillModels';
 import { getData } from '../Helper/httpClient';
+import { DisplaySchedule } from '../Model/DisplayScheduleModels';
 
 interface GIveFeedbackProp {
 	openDialog: boolean;
 	handleDialog: (value: boolean) => void;
-	aridno: string;
+	schedule: DisplaySchedule;
 }
 const GiveFeedback = (props: GIveFeedbackProp) => {
-	const { openDialog, aridno, handleDialog } = props;
+	const { openDialog, schedule, handleDialog } = props;
 	const [stdSkills, setStdSkills] = useState([] as Skill[]);
 
 	const handleClose = () => {
@@ -17,13 +18,13 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 	};
 
 	React.useEffect(() => {
-		if(aridno) {
+		if(schedule.aridNumber) {
 			fetchStdSkills();
 		}
-	}, [aridno]);
+	}, [schedule?.aridNumber]);
 
 	const fetchStdSkills = async () => {
-		const skillsFromDb = await getData<Skill[]>(`https://localhost:44309/api/studentSkills/get?aridno=${aridno}`);
+		const skillsFromDb = await getData<Skill[]>(`https://localhost:44309/api/studentSkills/get?aridno=${schedule.aridNumber}`);
 		setStdSkills(skillsFromDb);
 	}
 
@@ -47,7 +48,7 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 									aria-label="stdSkill"
 									name="rate"
 									id="rate"
-									value={1}
+									value={0}
 									onChange={handleChange}
 									sx={{ padding: 2 }}
 								>
@@ -55,14 +56,14 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 										<Grid item xs={12} sm={4}>
 											<FormControlLabel
 
-												value={1}
+												value={5}
 												control={<Radio />}
 												label="Excellent"
 											/>
 										</Grid>
 										<Grid item xs={12} sm={4}>
 											<FormControlLabel
-												value={2}
+												value={4}
 												control={<Radio />}
 												label="Good"
 											/>
@@ -72,14 +73,14 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 										</Grid>
 										<Grid item xs={12} sm={4}>
 											<FormControlLabel
-												value={4}
+												value={2}
 												control={<Radio />}
 												label="Avg"
 											/>
 										</Grid>
 										<Grid item xs={12} sm={4}>
 											<FormControlLabel
-												value={5}
+												value={1}
 												control={<Radio />}
 												label="Worst"
 											/>

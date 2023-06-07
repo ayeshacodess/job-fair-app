@@ -71,14 +71,13 @@ interface DisplayScheduleModel extends DisplaySchedule {
     action: JSX.Element;
 }
 
-
 const DisplayScheduleComponent = () => {
     const { userProfile } = useContext(AppContext);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [info, setInfo] = useState([] as DisplayScheduleModel[]);
     const [openGiveFeedbackDialog, setOpenGiveFeedbackDialog] = React.useState(false);
-    const [selectedAridno, setSelectedAridno] = useState("");
+    const [selectedSchedule, setSelectedSchedule] = useState({} as DisplaySchedule);
 
     React.useEffect(
         () => {
@@ -174,7 +173,7 @@ const DisplayScheduleComponent = () => {
                         color="success"
                         size="medium"
                         onClick={() => {
-                            setSelectedAridno(currentInfo.aridNumber);
+                            setSelectedSchedule(currentInfo);
                             setOpenGiveFeedbackDialog(true);
                         }}>
                         Feedback
@@ -188,7 +187,7 @@ const DisplayScheduleComponent = () => {
     const handleDialog = (value: boolean) => {
         if (!value) {
             setOpenGiveFeedbackDialog(value);
-            setSelectedAridno("");
+            setSelectedSchedule({} as DisplaySchedule);
         }
     }
 
@@ -256,7 +255,7 @@ const DisplayScheduleComponent = () => {
                     <GiveFeedback 
                         openDialog={openGiveFeedbackDialog}
                         handleDialog={handleDialog}
-                        aridno = {selectedAridno}
+                        schedule={selectedSchedule}
                     />
                 </Paper>
                 )
