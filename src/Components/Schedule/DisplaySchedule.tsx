@@ -99,14 +99,14 @@ const DisplayScheduleComponent = () => {
         var tempList = [...info]
         const scheduleindex = tempList.findIndex(x => scheduleRow.id == x.id);
         if(scheduleindex > -1){
-            
-            tempList[scheduleindex].isShortListed = !scheduleRow.isShortListed;
+            const shortListed = !scheduleRow.isShortListed;
+            tempList[scheduleindex].isShortListed = shortListed;
             setInfo(tempList);
 
             //save to db as well
             //create action in schdlue controller, add the param as given below url
             //then save to db
-            const url = `https://localhost:44309/api/schedule/shortlist?isShortList=${!scheduleRow.isShortListed}&studentId=${scheduleRow.studentId}&companyId=${scheduleRow.companyId}&scheduleId=${scheduleRow.id}`;
+            const url = `https://localhost:44309/api/schedule/shortlist?isShortList=${shortListed}&studentId=${scheduleRow.studentId}&companyId=${scheduleRow.companyId}&scheduleId=${scheduleRow.id}`;
 
             await getData(url);
         }
