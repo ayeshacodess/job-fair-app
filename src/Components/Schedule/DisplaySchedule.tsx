@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { getData } from "../Helper/httpClient";
 import { DisplaySchedule } from "../Model/DisplayScheduleModels";
 import { AppContext } from "../Context/AppContext";
+import GiveFeedback from "./GiveFeedback";
 
 interface Column {
     id: 'id' | "studentId" | 'studentName' | 'aridNumber' | 'companyId' | 'compnayName' | 'createorId' | 'creatorRole' | 'date' | 'startTime' | 'endTime' | 'allocatedRoom' | 'action';
@@ -70,11 +71,14 @@ interface DisplayScheduleModel extends DisplaySchedule {
     action: JSX.Element;
 }
 
+
 const DisplayScheduleComponent = () => {
     const { userProfile } = useContext(AppContext);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(25);
     const [info, setInfo] = useState([] as DisplayScheduleModel[]);
+    const [openGiveFeedbackDialog, setOpenGiveFeedbackDialog] = React.useState(false);
+    const [selectedAridno, setSelectedAridno] = useState("");
 
     React.useEffect(
         () => {
@@ -126,10 +130,6 @@ const DisplayScheduleComponent = () => {
         }
     };
 
-    const handleStudentFeedbackClick = (aridNumber: string) => {
-        alert(`${aridNumber}`);
-    }
-
     const createData = (currentInfo: DisplayScheduleModel): DisplayScheduleModel => {
         return {
             id: currentInfo.id,
@@ -173,13 +173,23 @@ const DisplayScheduleComponent = () => {
                         variant="contained"
                         color="success"
                         size="medium"
-                        onClick={() => handleStudentFeedbackClick(currentInfo.aridNumber)}>
+                        onClick={() => {
+                            setSelectedAridno(currentInfo.aridNumber);
+                            setOpenGiveFeedbackDialog(true);
+                        }}>
                         Feedback
                     </Button>
                 </>
                 }
             </div>
         };
+    }
+
+    const handleDialog = (value: boolean) => {
+        if (!value) {
+            setOpenGiveFeedbackDialog(value);
+            setSelectedAridno("");
+        }
     }
 
     const rows = info && info.map(x => createData(x));
@@ -242,6 +252,11 @@ const DisplayScheduleComponent = () => {
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                    <GiveFeedback 
+                        openDialog={openGiveFeedbackDialog}
+                        handleDialog={handleDialog}
+                        aridno = {selectedAridno}
                     />
                 </Paper>
                 )
