@@ -116,11 +116,11 @@ const DisplayScheduleComponent = () => {
         var tempList = [...info]
         const scheduleindex = tempList.findIndex(x => scheduleRow.id == x.id);
         if(scheduleindex > -1){
-            
-            tempList[scheduleindex].interviewed = !scheduleRow.interviewed;
+            const interviewed = !scheduleRow.interviewed;
+            tempList[scheduleindex].interviewed = interviewed;
             setInfo(tempList);
 
-            const url = `https://localhost:44309/api/schedule/interviewed?isInterviewed=${!scheduleRow.interviewed}&studentId=${scheduleRow.studentId}&companyId=${scheduleRow.companyId}&scheduleId=${scheduleRow.id}`;
+            const url = `https://localhost:44309/api/schedule/interviewed?isInterviewed=${interviewed}&studentId=${scheduleRow.studentId}&companyId=${scheduleRow.companyId}&scheduleId=${scheduleRow.id}`;
 
             await getData(url);
         }
