@@ -18,7 +18,6 @@ import SocietyMember from '../societyMembers/SocietyMember';
 import UploadCV from '../CV/UploadCV';
 import { AppContext } from '../Context/AppContext';
 import GenerateSchedule from '../Schedule/GenerateSchedule';
-import Feedback from '../Feedback/Feedback';
 import DisplayScheduleComponent from '../Schedule/DisplaySchedule';
 
 const drawerWidth: number = 240;
@@ -118,10 +117,10 @@ function DashboardContent() {
 								{renderItem === MenuItemList.Company && 
 							 		<CompanyComponent />
 								}
-								{
+								{/* {
 									renderItem === MenuItemList.Feedback && 
 									<Feedback />
-								}
+								} */}
 								{renderItem === MenuItemList.Schedule && 
 									<DisplayScheduleComponent />
 								}

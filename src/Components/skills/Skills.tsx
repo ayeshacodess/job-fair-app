@@ -54,7 +54,7 @@ const SkillComponent = () => {
     const fetchSkills = async () => {
         const skillsFromDb = await getData<SkillModel[]>("https://localhost:44309/api/skill/Get");
         setSkills(skillsFromDb);
-    }
+    }                                        
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);

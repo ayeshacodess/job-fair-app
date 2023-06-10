@@ -1,18 +1,19 @@
 import { Dialog, DialogTitle, DialogContent, Box, TextField, DialogActions, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material';
 import React, { ChangeEvent, useState } from 'react'
 import { Skill } from '../Model/SkillModels';
-import { getData } from '../Helper/httpClient';
+import { getData, postData } from '../Helper/httpClient';
 import { DisplaySchedule } from '../Model/DisplayScheduleModels';
+import { Feedback, StudentFeedback } from '../Model/FeedbackModels';
 
 interface GIveFeedbackProp {
 	openDialog: boolean;
 	handleDialog: (value: boolean) => void;
 	schedule: DisplaySchedule;
 }
-const GiveFeedback = (props: GIveFeedbackProp) => {
+const GiveFeedbackComponent = (props: GIveFeedbackProp) => {
 	const { openDialog, schedule, handleDialog } = props;
 	const [stdSkills, setStdSkills] = useState([] as Skill[]);
-
+	const [feedbackValues, setFeedbackValues] = useState([] as Feedback[]);
 	const handleClose = () => {
 		handleDialog(false);
 	};
@@ -28,8 +29,36 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 		setStdSkills(skillsFromDb);
 	}
 
-	function handleChange(event: ChangeEvent<HTMLInputElement>, value: string): void {
-		alert("Save cliked");
+	function handleChange(event: any, stdSkill: number): void {
+       
+        var temp: Feedback[] = [...feedbackValues];
+		var index = temp.findIndex(x => x.skill_ld === stdSkill) ;
+		if (index < 0){
+			var obj: Feedback = {
+				rate: event.target.value,
+				skill_ld: stdSkill
+			}
+			temp.push(obj);
+		}
+		else{
+			temp[index].skill_ld = stdSkill;
+			temp[index].rate = event.target.value; 
+		}
+		setFeedbackValues(temp);
+	}
+
+	function handleOnSave () {
+		
+
+		const req: StudentFeedback = {
+			companyId : schedule.companyId,
+			studentId : schedule.studentId,
+			stdFeedback : feedbackValues,
+		}
+
+		postData<StudentFeedback>("https://localhost:44309/api/student/studentFeedback", req);
+		console.log(req)
+		handleDialog(false);
 	}
 
 	return (
@@ -48,8 +77,8 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 									aria-label="stdSkill"
 									name="rate"
 									id="rate"
-									value={0}
-									onChange={handleChange}
+									//value={rate}
+									onChange={(e) => handleChange(e, stdSkill.id)}
 									sx={{ padding: 2 }}
 								>
 									<Grid container spacing={2} padding={2}>
@@ -94,12 +123,10 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>
 					<Button
-						//disabled={skill?.technology?.length < 2 || !skill?.technology}
 						variant="contained"
 						type="button"
 						sx={{ mt: 3, mb: 2 }}
-					//onClick={(e) => handleOnSave(e)}
-					>
+						onClick={handleOnSave}>
 						Save
 					</Button>
 				</DialogActions>
@@ -108,4 +135,4 @@ const GiveFeedback = (props: GIveFeedbackProp) => {
 	)
 }
 
-export default GiveFeedback
+export default GiveFeedbackComponent;
