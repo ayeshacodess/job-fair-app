@@ -8,4 +8,6 @@ export enum MenuItemList {
     UploadCV,
     GenerateSchedule,
     Schedule,
+    InterviewedAndShortListedStudents,
+    GiveEventFeedback,
 };

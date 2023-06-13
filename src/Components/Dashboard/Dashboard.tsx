@@ -19,6 +19,8 @@ import UploadCV from '../CV/UploadCV';
 import { AppContext } from '../Context/AppContext';
 import GenerateSchedule from '../Schedule/GenerateSchedule';
 import DisplayScheduleComponent from '../Schedule/DisplaySchedule';
+import InterviewedAndShortListedStudentsComponent from '../Students/InterviewedAndShortListedStudents';
+import GiveEventFeedBackComponent from '../EventFeedback/GiveEventFeedBack';
 
 const drawerWidth: number = 240;
 
@@ -129,6 +131,9 @@ function DashboardContent() {
 								{renderItem === MenuItemList.Schedule && 
 									<DisplayScheduleComponent />
 								}
+								{renderItem === MenuItemList.GiveEventFeedback && 
+									<GiveEventFeedBackComponent />
+								}
 							</>}
 
 
@@ -150,6 +155,9 @@ function DashboardContent() {
 								}
 								{renderItem === MenuItemList.Schedule && 
 									<DisplayScheduleComponent />
+								}
+								{renderItem === MenuItemList.InterviewedAndShortListedStudents && 
+									<InterviewedAndShortListedStudentsComponent />
 								}
 							</>}
 						</Grid>

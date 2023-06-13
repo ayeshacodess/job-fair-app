@@ -1,6 +1,7 @@
 export interface DisplaySchedule {
     id: number;
     studentId: number;
+    percentile: string;
     studentName: string;
     aridNumber: string;
     companyId: number;

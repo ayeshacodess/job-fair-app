@@ -4,68 +4,7 @@ import { getData } from "../Helper/httpClient";
 import { DisplaySchedule } from "../Model/DisplayScheduleModels";
 import { AppContext } from "../Context/AppContext";
 import GiveFeedback from "./GiveFeedback";
-
-interface Column {
-    id: 'id' | "studentId" | 'studentName' | 'aridNumber' | 'companyId' | 'compnayName' | 'createorId' | 'creatorRole' | 'date' | 'startTime' | 'endTime' | 'allocatedRoom' | 'action';
-    label: string;
-    minWidth?: number;
-    align?: 'center'
-    format?: (value: any) => string | JSX.Element;
-}
-
-const columns: readonly Column[] = [
-    {
-        id: 'compnayName',
-        label: 'Company Name',
-        align: 'center'
-    },
-    {
-        id: 'studentName',
-        label: 'Student Name',
-        align: 'center'
-    },
-    {
-        id: 'aridNumber',
-        label: 'Arid Number',
-        align: 'center'
-    },
-    {
-        id: 'creatorRole',
-        label: 'Created By',
-        align: 'center'
-    },
-    {
-        id: 'startTime',
-        label: 'Start Time',
-        format: (value: any) => {
-            if (value) {
-                const endDT = new Date(value);
-                return `${endDT.getHours().toString().padStart(2, '0')}:${endDT.getMinutes().toString().padStart(2, '0')}`;
-            }
-            return "---"
-        }
-    },
-    {
-        id: 'endTime',
-        label: 'End Time',
-        format: (value: any) => {
-            if (value) {
-                const endDT = new Date(value);
-                return `${endDT.getHours().toString().padStart(2, '0')}:${endDT.getMinutes().toString().padStart(2, '0')}`;
-            }
-            return "---"
-        }
-    },
-    {
-        id: 'allocatedRoom',
-        label: ' Allocated Room'
-    },
-    {
-        id: 'action',
-        label: 'Actions',
-        minWidth: 170
-    },
-];
+import { getColumnForAdminOrSocietyMember, getColumnForCompany, getColumnForStudent } from "./ScheduleUtility";
 
 interface DisplayScheduleModel extends DisplaySchedule {
     action: JSX.Element;
@@ -135,6 +74,7 @@ const DisplayScheduleComponent = () => {
             companyId: currentInfo.companyId,
             compnayName: currentInfo.compnayName,
             studentId: currentInfo.studentId,
+            percentile: currentInfo.percentile,
             studentName: currentInfo.studentName,
             aridNumber: currentInfo.aridNumber,
             allocatedRoom: currentInfo.allocatedRoom,
@@ -190,6 +130,9 @@ const DisplayScheduleComponent = () => {
             setSelectedSchedule({} as DisplaySchedule);
         }
     }
+    
+    const columns = userProfile.role === "Company" ? getColumnForCompany() : 
+        userProfile.role === "Student" ? getColumnForStudent() : getColumnForAdminOrSocietyMember();
 
     const rows = info && info.map(x => createData(x));
 

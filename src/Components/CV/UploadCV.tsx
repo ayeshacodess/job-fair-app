@@ -6,12 +6,6 @@ import { Student, StudentSkill } from '../Model/StudentModels';
 import { AppContext } from '../Context/AppContext';
 
 const UploadCV = () => {
-// start 
-
-const [file, setFile] = React.useState("")
-
-
-// end
     const { userProfile } = useContext(AppContext);
     const [values, setValues] = useState<Student>({} as Student);
      const  [skills, setSkills] = useState([] as Skill[]);
