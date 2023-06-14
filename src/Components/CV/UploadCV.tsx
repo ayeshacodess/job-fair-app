@@ -125,11 +125,12 @@ const UploadCV = () => {
                             autoComplete="contact2"
                             onChange={handleChange}
                         />
-                    </Grid>
-                    <input  type="file"  name='cvpath' onChange={(e) => {
+                 
+                     </Grid>
+                    {/* <input  type="file"  name='cvpath' onChange={(e) => {
              handleUploadCVFile(e)
-            }}  />
-                </Grid>
+            }}  /> */}
+                </Grid> 
 
                 <FormLabel component='legend' style={{ marginTop: '2rem', paddingLeft: '2rem' }}>
                     Select your Skill(s)

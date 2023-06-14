@@ -22,6 +22,8 @@ import DisplayScheduleComponent from '../Schedule/DisplaySchedule';
 import InterviewedAndShortListedStudentsComponent from '../Students/InterviewedAndShortListedStudents';
 import GiveEventFeedBackComponent from '../EventFeedback/GiveEventFeedBack';
 import DisplayEventFeedbackComponent from '../EventFeedback/DisplayEventFeedback';
+import DisplayStudentFeedbackComponent from '../Students/DisplayStudentFeedback';
+import ExecutiveSummary from '../EventExecutiveSummary/ExecutiveSummary';
 
 const drawerWidth: number = 240;
 
@@ -127,6 +129,9 @@ function DashboardContent() {
 								{renderItem === MenuItemList.Schedule && 
 									<DisplayScheduleComponent />
 								}
+								{renderItem === MenuItemList.StudentFeedback && 
+									<DisplayStudentFeedbackComponent />
+								}
 							</>}
 							{userProfile.role === "Company" &&  <>
 								{renderItem === MenuItemList.Schedule && 
@@ -162,6 +167,9 @@ function DashboardContent() {
 								}
 								{renderItem === MenuItemList.DisplayEventFeedback && 
 									<DisplayEventFeedbackComponent />
+								}
+								{renderItem === MenuItemList.EventSummary && 
+									<ExecutiveSummary />
 								}
 							</>}
 						</Grid>

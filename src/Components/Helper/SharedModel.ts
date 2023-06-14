@@ -11,4 +11,6 @@ export enum MenuItemList {
     InterviewedAndShortListedStudents,
     GiveEventFeedback,
     DisplayEventFeedback,
+    StudentFeedback,
+    EventSummary,
 };

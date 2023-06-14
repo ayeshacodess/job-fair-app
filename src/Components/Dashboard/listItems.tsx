@@ -85,6 +85,13 @@ const MenuItems = (props: MenuItemProps) => {
 			</ListItemIcon>
 			<ListItemText primary="Event Feedback" />
 		</ListItemButton>
+
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.EventSummary)}>
+			<ListItemIcon>
+				<ShoppingCartIcon />
+			</ListItemIcon>
+			<ListItemText primary="Event Summary" />
+		</ListItemButton>
 	</React.Fragment>
 
 
@@ -113,7 +120,7 @@ const MenuItems = (props: MenuItemProps) => {
 			</ListItemIcon>
 			<ListItemText primary="Upload CV" />
 		</ListItemButton>
-		<ListItemButton onClick={() => onClickHandler(MenuItemList.Feedback)}>
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.StudentFeedback)}>
 			<ListItemIcon>
 				<LayersIcon />
 			</ListItemIcon>
