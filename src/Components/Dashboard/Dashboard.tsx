@@ -21,6 +21,7 @@ import GenerateSchedule from '../Schedule/GenerateSchedule';
 import DisplayScheduleComponent from '../Schedule/DisplaySchedule';
 import InterviewedAndShortListedStudentsComponent from '../Students/InterviewedAndShortListedStudents';
 import GiveEventFeedBackComponent from '../EventFeedback/GiveEventFeedBack';
+import DisplayEventFeedbackComponent from '../EventFeedback/DisplayEventFeedback';
 
 const drawerWidth: number = 240;
 
@@ -158,6 +159,9 @@ function DashboardContent() {
 								}
 								{renderItem === MenuItemList.InterviewedAndShortListedStudents && 
 									<InterviewedAndShortListedStudentsComponent />
+								}
+								{renderItem === MenuItemList.DisplayEventFeedback && 
+									<DisplayEventFeedbackComponent />
 								}
 							</>}
 						</Grid>

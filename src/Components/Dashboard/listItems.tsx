@@ -71,11 +71,19 @@ const MenuItems = (props: MenuItemProps) => {
 			</ListItemIcon>
 			<ListItemText primary="Schedule" />
 		</ListItemButton>
+
 		<ListItemButton onClick={() => onClickHandler(MenuItemList.InterviewedAndShortListedStudents)}>
 			<ListItemIcon>
 				<LayersIcon />
 			</ListItemIcon>
-			<ListItemText primary="Interviewed & Shortlisted Students" />
+			<ListItemText primary="Shortlisted Students" />
+		</ListItemButton>
+
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.DisplayEventFeedback)}>
+			<ListItemIcon>
+				<LayersIcon />
+			</ListItemIcon>
+			<ListItemText primary="Event Feedback" />
 		</ListItemButton>
 	</React.Fragment>
 
