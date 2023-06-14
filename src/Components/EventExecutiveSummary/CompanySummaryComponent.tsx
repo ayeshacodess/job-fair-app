@@ -4,6 +4,7 @@ import { Skill } from '../Model/SkillModels';
 import { CompanySummary } from '../Model/CompanySummaryModels';
 import { getData } from '../Helper/httpClient';
 import { format } from 'path';
+import HoverRating from './Rating';
 
 interface Column {
     id: 'companyId' | 'companyName' | 'totalInterviews' | 'totalShortlisted' | 'teerAvg' | 'action';
@@ -36,14 +37,13 @@ const columns: readonly Column[] = [
     },
     {
         id: 'action',
-        label: 'Actions',
+        label: 'Rating',
         minWidth: 170
     }
 ];
 
 interface CompanySummaryModel extends CompanySummary {
     action: JSX.Element;
-    
 }
 
 const CompanySummaryComponent = () => {
@@ -80,27 +80,11 @@ const CompanySummaryComponent = () => {
             totalInterviews: currentData.totalInterviews,
             totalShortlisted: currentData.totalShortlisted,
             action: <div>
-                <Button 
-                    variant="contained" 
-                    color="success" 
-                    size="small" 
-                    style={{marginRight: '5px'}}
-                    //onClick={() => handleOnSkillClick(currentData)}
-                    >
-                    Rate
-                </Button>
+                <HoverRating rate={currentData.companyRate} companyId={currentData.companyId}/>
             </div>
         };
     }
 
-    const handleDialog = (value: boolean) => {
-        if (!value) {
-            // setOpenAddEditSkillDialog(value);
-            // setSelectedSkill({} as Skill);
-            // fetchSkills();
-        }
-    }
-    
     const rows = summaries.map(s => createData(s));
 
     return (
