@@ -92,6 +92,13 @@ const MenuItems = (props: MenuItemProps) => {
 			</ListItemIcon>
 			<ListItemText primary="Event Summary" />
 		</ListItemButton>
+
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.CompanySummary)}>
+			<ListItemIcon>
+				<ShoppingCartIcon />
+			</ListItemIcon>
+			<ListItemText primary="Company Summary" />
+		</ListItemButton>
 	</React.Fragment>
 
 

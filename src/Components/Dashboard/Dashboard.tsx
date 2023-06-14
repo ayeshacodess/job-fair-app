@@ -24,6 +24,7 @@ import GiveEventFeedBackComponent from '../EventFeedback/GiveEventFeedBack';
 import DisplayEventFeedbackComponent from '../EventFeedback/DisplayEventFeedback';
 import DisplayStudentFeedbackComponent from '../Students/DisplayStudentFeedback';
 import ExecutiveSummary from '../EventExecutiveSummary/ExecutiveSummary';
+import CompanySummaryComponent from '../EventExecutiveSummary/CompanySummaryComponent';
 
 const drawerWidth: number = 240;
 
@@ -170,6 +171,9 @@ function DashboardContent() {
 								}
 								{renderItem === MenuItemList.EventSummary && 
 									<ExecutiveSummary />
+								}
+								{renderItem === MenuItemList.CompanySummary && 
+									<CompanySummaryComponent />
 								}
 							</>}
 						</Grid>
