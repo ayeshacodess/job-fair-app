@@ -40,7 +40,7 @@ const DisplayScheduleComponent = () => {
     const handleChangeShortLIst = async (scheduleRow: DisplayScheduleModel) => {
         var tempList = [...info]
         const scheduleindex = tempList.findIndex(x => scheduleRow.id == x.id);
-        if(scheduleindex > -1){
+        if (scheduleindex > -1) {
             const shortListed = !scheduleRow.isShortListed;
             tempList[scheduleindex].isShortListed = shortListed;
             setInfo(tempList);
@@ -57,7 +57,7 @@ const DisplayScheduleComponent = () => {
     const handleChangeInterviewed = async (scheduleRow: DisplayScheduleModel) => {
         var tempList = [...info]
         const scheduleindex = tempList.findIndex(x => scheduleRow.id == x.id);
-        if(scheduleindex > -1){
+        if (scheduleindex > -1) {
             const interviewed = !scheduleRow.interviewed;
             tempList[scheduleindex].interviewed = interviewed;
             setInfo(tempList);
@@ -67,6 +67,12 @@ const DisplayScheduleComponent = () => {
             await getData(url);
         }
     };
+    
+    const jumpTheQueueHandler = async (companyId: number, studentId: number) => {
+        const url = `https://localhost:44309/api/schedule/jumpTheQueue?companyId=${companyId}&studentId=${studentId}`;
+        await getData(url);
+        fetchInfo();
+    }
 
     const createData = (currentInfo: DisplayScheduleModel): DisplayScheduleModel => {
         return {
@@ -88,38 +94,50 @@ const DisplayScheduleComponent = () => {
             isShortListed: currentInfo.isShortListed,
             action: <div>
                 {(userProfile.role === "Company") &&
-                <>
-                    <FormControlLabel
-                        control={<Checkbox 
-                            checked={currentInfo.interviewed}
-                            onChange={() => handleChangeInterviewed(currentInfo)}
-                            name="interviewed"
-                            id='interviewed' />
-                        }
-                        label="Interviewed"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox 
-                            checked={currentInfo.isShortListed}
-                            onChange={() => handleChangeShortLIst(currentInfo)}
-                            name="isShortListed"
-                            id='isShortListed' />
-                        }
-                        label="Shortlist"
-                    />
+                    <>
+                        <FormControlLabel
+                            control={<Checkbox
+                                checked={currentInfo.interviewed}
+                                onChange={() => handleChangeInterviewed(currentInfo)}
+                                name="interviewed"
+                                id='interviewed' />
+                            }
+                            label="Interviewed"
+                        />
+                        <FormControlLabel
+                            control={<Checkbox
+                                checked={currentInfo.isShortListed}
+                                onChange={() => handleChangeShortLIst(currentInfo)}
+                                name="isShortListed"
+                                id='isShortListed' />
+                            }
+                            label="Shortlist"
+                        />
+                        <Button
+                            disabled={!currentInfo.interviewed}
+                            variant="contained"
+                            color="success"
+                            size="medium"
+                            onClick={() => {
+                                setSelectedSchedule(currentInfo);
+                                setOpenGiveFeedbackDialog(true);
+                            }}>
+                            Feedback
+                        </Button>
+                    </>
+                }
+                {userProfile.role === "Student" && <>
                     <Button
-                        disabled={!currentInfo.interviewed}
+                        //disabled={!currentInfo.interviewed}
                         variant="contained"
                         color="success"
-                        size="medium"
+                        size="small"
                         onClick={() => {
-                            setSelectedSchedule(currentInfo);
-                            setOpenGiveFeedbackDialog(true);
+                            jumpTheQueueHandler(currentInfo.companyId, currentInfo.studentId)
                         }}>
-                        Feedback
+                        Jump the Queue
                     </Button>
-                </>
-                }
+                </>}
             </div>
         };
     }
@@ -130,78 +148,78 @@ const DisplayScheduleComponent = () => {
             setSelectedSchedule({} as DisplaySchedule);
         }
     }
-    
-    const columns = userProfile.role === "Company" ? getColumnForCompany() : 
+
+    const columns = userProfile.role === "Company" ? getColumnForCompany() :
         userProfile.role === "Student" ? getColumnForStudent() : getColumnForAdminOrSocietyMember();
 
     const rows = info && info.map(x => createData(x));
 
-                return (
-                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                    <AppBar position="static">
-                        <Toolbar>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                Schedule
-                            </Typography>
-                        </Toolbar>
-                    </AppBar>
-                    <TableContainer sx={{ maxHeight: 440 }}>
-                        <Table stickyHeader aria-label="sticky table">
-                            <TableHead>
-                                <TableRow>
-                                    {columns.map((column) => (
-                                        <TableCell
-                                            key={column.id}
-                                            align={column.align}
-                                            style={{ minWidth: column.minWidth }}
-                                        >
-                                            {column.label}
-                                        </TableCell>
-                                    ))}
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {rows && rows.length > 0 &&
-                                    rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row) => {
-                                            return (
-                                                <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
-                                                    {columns.map((column) => {
-                                                        const value = row[column.id];
-                                                        return (
-                                                            <TableCell key={column.id} align={column.align}>
-                                                                {column.format ? column.format(value) : value}
-                                                            </TableCell>
-                                                        );
-                                                    })}
-                                                </TableRow>
-                                            );
-                                        }
-                                        )}
-                                {(!rows || rows.length === 0) &&
-                                    <TableRow hover role="checkbox" tabIndex={-1}>
-                                        <TableCell>No record found !</TableCell>
-                                    </TableRow>
+    return (
+        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+            <AppBar position="static">
+                <Toolbar>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        Schedule
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <TableContainer sx={{ maxHeight: 440 }}>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            {columns.map((column) => (
+                                <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                    style={{ minWidth: column.minWidth }}
+                                >
+                                    {column.label}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows && rows.length > 0 &&
+                            rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id} align={column.align}>
+                                                        {column.format ? column.format(value) : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
                                 }
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                    <TablePagination
-                        rowsPerPageOptions={[10, 25, 100]}
-                        component="div"
-                        count={rows.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-                    />
-                    <GiveFeedback 
-                        openDialog={openGiveFeedbackDialog}
-                        handleDialog={handleDialog}
-                        schedule={selectedSchedule}
-                    />
-                </Paper>
-                )
+                                )}
+                        {(!rows || rows.length === 0) &&
+                            <TableRow hover role="checkbox" tabIndex={-1}>
+                                <TableCell>No record found !</TableCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+            <GiveFeedback
+                openDialog={openGiveFeedbackDialog}
+                handleDialog={handleDialog}
+                schedule={selectedSchedule}
+            />
+        </Paper>
+    )
 }
 
-                export default DisplayScheduleComponent;
+export default DisplayScheduleComponent;

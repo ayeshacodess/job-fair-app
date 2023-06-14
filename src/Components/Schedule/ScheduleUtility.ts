@@ -90,7 +90,13 @@ export const getColumnForStudent = () : DisplayScheduleColumn[] => {
         {
             id: 'allocatedRoom',
             label: ' Allocated Room'
-        }
+        },
+        {
+            id: 'action',
+            label: 'Actions',
+            minWidth: 170
+        },
+
     ];
     return columns;
 }
