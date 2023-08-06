@@ -54,7 +54,7 @@ interface CompanyModel extends Company {
 const CompanyComponent = () => {
     const { userProfile } = React.useContext(AppContext);
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(25);
     const [companies, setCompanies] = useState([] as CompanyModel[]);
     const [selectedCompany, setSelectedCompany] = React.useState({} as Company);
     const [openAddEditCompanyDialogue, setOpenAddEditCompanyDialogue] = useState(false);
@@ -106,6 +106,7 @@ const CompanyComponent = () => {
                 {(userProfile.role === "Admin" || userProfile.role === "SocietyMember") && 
                     <>
                         <Button
+                            disabled={currentCompany.status === "Accept"}
                             variant="contained"
                             color="success"
                             size="medium"
@@ -113,6 +114,7 @@ const CompanyComponent = () => {
                             Accept
                         </Button>
                         <Button
+                            disabled={currentCompany.status === "Reject"}
                             variant="outlined"
                             color="error"
                             size="medium"

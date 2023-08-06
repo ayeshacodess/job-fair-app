@@ -25,6 +25,10 @@ import DisplayEventFeedbackComponent from '../EventFeedback/DisplayEventFeedback
 import DisplayStudentFeedbackComponent from '../Students/DisplayStudentFeedback';
 import ExecutiveSummary from '../EventExecutiveSummary/ExecutiveSummary';
 import CompanySummaryComponent from '../EventExecutiveSummary/CompanySummaryComponent';
+import SetPassesComponent from '../SetPasses/SetPasses';
+import RegularAndJumpedCOmponent from '../JumpedRegularIntrvws/RegularAndJumped';
+import AcceptedCompanies from '../director/AcceptedCompanies';
+import Director from '../director/Director';
 
 const drawerWidth: number = 240;
 
@@ -116,6 +120,11 @@ function DashboardContent() {
 									</p>
 								</Stack>
 							}
+							 {userProfile.role === "Director" && <>
+							{renderItem === MenuItemList.AcceptedCompanies &&
+							 <Director  />
+							} 
+							</>} 
 							{userProfile.role === "Student" &&  <>
 								{renderItem === MenuItemList.UploadCV &&
 									<UploadCV />
@@ -148,6 +157,12 @@ function DashboardContent() {
 								{renderItem === MenuItemList.Student && 
 									<Students />
 								}
+								{renderItem === MenuItemList.regAndJump && 
+									<RegularAndJumpedCOmponent />
+								}
+								{renderItem === MenuItemList.SetPasses && 
+									<SetPassesComponent />
+								}
 								{renderItem === MenuItemList.Skill && 
 									<SkillComponent />
 								}
@@ -169,7 +184,7 @@ function DashboardContent() {
 								{renderItem === MenuItemList.DisplayEventFeedback && 
 									<DisplayEventFeedbackComponent />
 								}
-								{renderItem === MenuItemList.EventSummary && 
+								 {renderItem === MenuItemList.EventSummary && 
 									<ExecutiveSummary />
 								}
 								{renderItem === MenuItemList.CompanySummary && 

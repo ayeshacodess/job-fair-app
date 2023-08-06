@@ -35,12 +35,30 @@ const MenuItems = (props: MenuItemProps) => {
 			</ListItemIcon >
 			<ListItemText primary="Dashboard" />
 		</ListItemButton>
+
+		
+
 		<ListItemButton onClick={() => onClickHandler(MenuItemList.Student)}>
 			<ListItemIcon>
 				<ShoppingCartIcon />
 			</ListItemIcon>
 			<ListItemText primary="Students" />
 		</ListItemButton>
+
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.regAndJump)}>
+			<ListItemIcon>
+				<ShoppingCartIcon />
+			</ListItemIcon>
+			<ListItemText primary="Regular and jumped" />
+		</ListItemButton>
+
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.SetPasses)}>
+			<ListItemIcon>
+				<ShoppingCartIcon />
+			</ListItemIcon>
+			<ListItemText primary="Set Passes" />
+		</ListItemButton>
+
 		<ListItemButton onClick={() => onClickHandler(MenuItemList.Company)}>
 			<ListItemIcon>
 				<PeopleIcon />
@@ -90,7 +108,7 @@ const MenuItems = (props: MenuItemProps) => {
 			<ListItemIcon>
 				<ShoppingCartIcon />
 			</ListItemIcon>
-			<ListItemText primary="Event Summary" />
+			 <ListItemText primary="Event Summary" />
 		</ListItemButton>
 
 		<ListItemButton onClick={() => onClickHandler(MenuItemList.CompanySummary)}>
@@ -158,12 +176,31 @@ const MenuItems = (props: MenuItemProps) => {
 		</ListItemButton>
 	</React.Fragment>
 
+const directorLinks = <React.Fragment>
+<ListItemButton onClick={() => onClickHandler(MenuItemList.Dashboard)}>
+	<ListItemIcon>
+		<DashboardIcon />
+	</ListItemIcon >
+	<ListItemText primary="Dashboard" />
+</ListItemButton>
+
+<ListItemButton onClick={() => onClickHandler(MenuItemList.AcceptedCompanies)}>
+	<ListItemIcon>
+		<ShoppingCartIcon />
+	</ListItemIcon>
+	<ListItemText primary="Companies" />
+</ListItemButton>
+
+
+</React.Fragment>
+
 return (
 	<List component="nav">
 		{userProfile.role === "Student" && studentLinks}
 		{userProfile.role === "Admin" && adminAndSocieyMemberLinks}
 		{userProfile.role === "SocietyMember" && adminAndSocieyMemberLinks}
 		{userProfile.role === "Company" && companyLinks}
+		{userProfile.role === "Director" && directorLinks}
 	</List>
 );
 }

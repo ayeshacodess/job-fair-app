@@ -33,7 +33,16 @@ const GenerateSchedule = () => {
     };
 
     const handleSubmit = async () => {
-        var submitObject = Object.assign({}, scheduleValues, { selectedCompany, UserProfile: userProfile.Id, role: userProfile.role });
+        var submitObject = Object.assign(
+            {}, 
+            scheduleValues, 
+            { 
+                selectedCompany, 
+                UserProfile: userProfile.role === "Admin" ? userProfile.Id : userProfile.userProfileId, 
+                role: userProfile.role 
+            }
+        );
+        
         if (!submitObject.selectedCompany || !submitObject.allocatedRoom || !submitObject.timeDuration) {
             alert("Please fill all the values");
         } else {

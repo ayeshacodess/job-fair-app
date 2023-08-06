@@ -128,6 +128,7 @@ const DisplayScheduleComponent = () => {
                 }
                 {userProfile.role === "Student" && <>
                     <Button
+                    disabled={!info}
                         //disabled={!currentInfo.interviewed}
                         variant="contained"
                         color="success"

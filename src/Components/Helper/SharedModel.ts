@@ -14,4 +14,7 @@ export enum MenuItemList {
     StudentFeedback,
     EventSummary,
     CompanySummary,
+    SetPasses,
+    regAndJump,
+    AcceptedCompanies,
 };
