@@ -137,9 +137,9 @@ const UploadCV = () => {
                         />
                  
                      </Grid>
-                     <input  type="file"  name='cvpath' onChange={(e) => {
-                            handleUploadCVFile(e)
-                        }}  /> 
+                     <Grid item xs={12} sm={12}>
+                        <input  type="file" id='cvpath' name='cvpath' onChange={(e) => handleUploadCVFile(e)} /> 
+                    </Grid>
                 </Grid> 
 
                 <FormLabel component='legend' style={{ marginTop: '2rem', paddingLeft: '2rem' }}>
