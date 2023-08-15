@@ -110,3 +110,33 @@ export async function postData2<T>(url: string, params: {} = {}) {
     xhr.send(JSON.stringify(params));
     
 }
+
+export async function postDataWithFile<T>(url: string, parameters: any): Promise<T> {
+    return await fetch(url, {
+        method: "POST",
+        body: parameters,
+    })
+    .then((response) => {
+        //check here if the server returns 401 unauthorized, ask to login again.
+        if (response.status === 401) {
+            return "unauthorized";
+        } else if (response.status === 404) {
+            return "NotFound";
+        } else {
+            return response.text();
+        }
+    })
+    .then((text) => {
+        if (text === "unauthorized") {
+            throw new Error("unauthorized");
+        } 
+        else if (text === "NotFound") {
+            throw new Error("NotFound");
+        }
+
+        if (text) {
+            return JSON.parse(text);
+        }
+    })
+    .then((data: T) => data);
+}
