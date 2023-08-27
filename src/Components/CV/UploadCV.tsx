@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useContext, useState } from 'react';
 import { Autocomplete, AutocompleteChangeReason, Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, InputLabel, MenuItem, NativeSelect, Select, SelectChangeEvent, TextField, Typography } from '@mui/material';
-import { getData, postData, postData2 } from '../Helper/httpClient';
+import { getData, postData, postData2, postDataWithFile } from '../Helper/httpClient';
 import { Skill } from '../Model/SkillModels';
 import { Student, StudentSkill } from '../Model/StudentModels';
 import { AppContext } from '../Context/AppContext';
