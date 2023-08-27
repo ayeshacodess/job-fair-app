@@ -50,9 +50,19 @@ const UploadCV = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        var data = Object.assign({}, values, { userId: userProfile.Id, aridNumber: userProfile.aridNumber,file:selectedFile })
         
-        postData<Student>("https://localhost:44309/api/student/uploadcv", data);
+        const data = Object.assign({}, values, { userId: userProfile.Id, aridNumber: userProfile.aridNumber, file:selectedFile })
+        
+        //created Form Data Object
+        const formData = new FormData();
+
+        //appended the data in formData Object with key name 'body'
+        formData.append('body', JSON.stringify(data));
+
+        //appended the file in formData Object with key name 'file'
+        formData.append('file', selectedFile);
+
+        postDataWithFile<Student>("https://localhost:44309/api/student/uploadcv", formData);
     }
 
     React.useEffect(() => {
@@ -127,9 +137,9 @@ const UploadCV = () => {
                         />
                  
                      </Grid>
-                     <input  type="file"  name='cvpath' onChange={(e) => {
-                            handleUploadCVFile(e)
-                        }}  /> 
+                     <Grid item xs={12} sm={12}>
+                        <input  type="file" id='cvpath' name='cvpath' onChange={(e) => handleUploadCVFile(e)} /> 
+                    </Grid>
                 </Grid> 
 
                 <FormLabel component='legend' style={{ marginTop: '2rem', paddingLeft: '2rem' }}>
