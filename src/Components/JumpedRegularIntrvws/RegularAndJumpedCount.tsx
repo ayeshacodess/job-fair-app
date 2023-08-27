@@ -7,18 +7,15 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Button from '@mui/material/Button';
 import { getData } from '../Helper/httpClient';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
-import { Company } from '../Model/CompanyModels';
-import { AppContext } from '../Context/AppContext';
 import { RegularAndJumped } from '../Model/regularAndJumpedModel';
 
 interface Column {
-  id: 'companyName' | 'totalJumpedStudents' | 'regularInterviews' | 'action';
+  id: 'companyName' | 'JumpedStudentsInterviews' | 'regularInterviews' ;
   label: string;
   minWidth?: number;
   align?: 'center';
@@ -32,101 +29,56 @@ const columns: readonly Column[] = [
     align: 'center',
   },
   {
-    id: 'totalJumpedStudents',
-    label: 'Contact1',
+    id: 'JumpedStudentsInterviews',
+    label: 'Jumped Students Interview',
     minWidth: 170,
   },
   {
     id: 'regularInterviews',
-    label: 'Status',
-    minWidth: 170,
-  },
-  {
-    id: 'action',
-    label: 'Actions',
+    label: 'Regular Interviews',
     minWidth: 170,
   },
 ];
-
-interface RegularAndJumpedModel extends RegularAndJumped {
-  action: JSX.Element;
+interface RegularAndJumpedProps{
+  onRegularStudentClick: (id: number) => void;
+  onJumpedStudentClick: (id: number) => void;
 }
-
-const RegularAndJumpedCOmponent = () => {
-  const { userProfile } = React.useContext(AppContext);
+const RegularAndJumpedCOmponent: React.FC<RegularAndJumpedProps> = (props: RegularAndJumpedProps) => {
+  
+  const { onRegularStudentClick, onJumpedStudentClick } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [companies, setCompanies] = useState([] as RegularAndJumpedModel[]);
-  const [openTotalJumpedDialogue, setOpenTotalJumpedDialogue] = useState(false);
-  const [openRegularInterviewsDialogue, setRegularInterviewsDialogue] =
-    useState(false);
+  const [companiesRegularAndJumpedCount, setCompaniesRegularAndJumpedCount] = useState([] as RegularAndJumped[]);
 
   React.useEffect(() => {
     fetchCompanies();
   }, []);
 
   const fetchCompanies = async () => {
-    const companiesFromDb = await getData<RegularAndJumpedModel[]>(
-      `https://localhost:44309/api/companiesRegAndJump?role=${userProfile.role}&userId=${userProfile.userProfileId}`
-    );
-    setCompanies(companiesFromDb);
+    const companiesFromAPI = await getData<RegularAndJumped[]>("https://localhost:44309/api/companiesAndNoOfRegularAndJumpedStudents");
+    setCompaniesRegularAndJumpedCount(companiesFromAPI);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChangeRowsPerPage = ( event: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
 
-  const handleRegularInterviews = (): void => {
-    // Implement your logic for handling regular interviews here
-  };
 
-  const handleJumpedStudents = (): void => {
-    // Implement your logic for handling jumped students here
-  };
-
-  const createData = (currentCompany: RegularAndJumpedModel): RegularAndJumpedModel => {
+  const createData = (currentCompany: RegularAndJumped): RegularAndJumped => {
     return {
+      id : currentCompany.id,
       companyName: currentCompany.companyName,
-      totalJumpedStudents: currentCompany.totalJumpedStudents,
+      JumpedStudentsInterviews: currentCompany.JumpedStudentsInterviews,
       regularInterviews: currentCompany.regularInterviews,
-      action: (
-        <>
-          <Button
-            variant="contained"
-            color="success"
-            size="medium"
-            onClick={() => handleRegularInterviews()}
-          >
-            Regular Interviewed Students
-          </Button>
-
-          <Button
-            variant="contained"
-            color="success"
-            size="medium"
-            onClick={() => handleJumpedStudents()}
-          >
-            Total Jumped Students
-          </Button>
-        </>
-      ),
     };
   };
 
-  const handleJumpedDialogue = (value: boolean) => {
-    if (!value) {
-      setOpenTotalJumpedDialogue(value);
-    }
-  };
-
-  const rows = companies && companies.map((x) => createData(x));
+  const rows = companiesRegularAndJumpedCount && companiesRegularAndJumpedCount.map((x) => createData(x));
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -168,11 +120,19 @@ const RegularAndJumpedCOmponent = () => {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align}
+                          onClick={()=> {
+                            if(column.id === 'JumpedStudentsInterviews'){
+                              onJumpedStudentClick(row.id)
+                            }
+                            if(column.id === 'regularInterviews'){
+                              onRegularStudentClick(row.id)
+                            }
+                        } }
+                          >
                             {column.id === 'companyName' && value}
-                            {column.id === 'totalJumpedStudents' && value}
+                            {column.id === 'JumpedStudentsInterviews' && value}
                             {column.id === 'regularInterviews' && value}
-                            {column.id === 'action' && value}
                           </TableCell>
                         );
                       })}

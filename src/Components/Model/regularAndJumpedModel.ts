@@ -1,5 +1,6 @@
 export interface RegularAndJumped{
+    id: number;
     companyName: string;
-    totalJumpedStudents: number;
+    JumpedStudentsInterviews: number;
     regularInterviews: number;
 }

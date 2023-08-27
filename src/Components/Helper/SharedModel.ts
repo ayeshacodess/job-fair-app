@@ -17,4 +17,6 @@ export enum MenuItemList {
     SetPasses,
     regAndJump,
     AcceptedCompanies,
+    RegularJumpedP,
+    RegularAndJumpedCOmponent
 };

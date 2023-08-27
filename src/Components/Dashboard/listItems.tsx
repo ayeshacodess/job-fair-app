@@ -45,7 +45,7 @@ const MenuItems = (props: MenuItemProps) => {
 			<ListItemText primary="Students" />
 		</ListItemButton>
 
-		<ListItemButton onClick={() => onClickHandler(MenuItemList.regAndJump)}>
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.RegularJumpedP)}>
 			<ListItemIcon>
 				<ShoppingCartIcon />
 			</ListItemIcon>

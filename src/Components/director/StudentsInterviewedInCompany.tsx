@@ -20,17 +20,23 @@ const columns: readonly Column[] = [
     align: 'center'
   },
 ];
-const StudentsInterviewedInCompanyComponent = () => {
+interface StudentsInterviewedInCompanyProps{
+companyId: number;
+onStudentSelect: (id: number) => void;
+}
+const StudentsInterviewedInCompanyComponent : React.FC<StudentsInterviewedInCompanyProps> = (props: StudentsInterviewedInCompanyProps)  => {
+  const {companyId, onStudentSelect} = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [students, setStudents] = useState([] as Student[]);
 
   React.useEffect(() => {
     fetchStudents();
+    console.log(students);
   }, []);
 
   const fetchStudents = async () => {
-    var studentsFromDb = await getData<Student[]>("https://localhost:44309/api/StudentsInterviewedInCompany?companyId=1024");
+    var studentsFromDb = await getData<Student[]>(`https://localhost:44309/api/StudentsInterviewedInCompany?companyId=${companyId}`);
     setStudents(studentsFromDb);
   }
 
@@ -85,7 +91,7 @@ const StudentsInterviewedInCompanyComponent = () => {
                       {columns.map((column) => {
                         const value = row[column.id];
                         return (
-                          <TableCell key={column.id} align={column.align}>
+                          <TableCell key={column.id} align={column.align}  onClick={() => onStudentSelect(row.id)}>
                             {/* {column.format && typeof value === 'number' ? column.format(value) : value} */}
                                               {/* {column.id === 'name' && value} */}
                             {column.id === 'name' && (

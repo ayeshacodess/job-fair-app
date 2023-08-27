@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import CompnentA from './compnentA';
-import CompnentB from './compnentB';
 import AcceptedCompanies from './AcceptedCompanies';
 import { Company } from '../Model/CompanyModels';
 import { getData } from '../Helper/httpClient';
+import StudentsInterviewedInCompanyComponent from './StudentsInterviewedInCompany';
+import StudentCVComponent from './StudentCV';
 
 const Director = () => {
   const [selectedComId, setSelectedComId] = useState(0);
   const [selectedStdId, setSelectedStdId] = useState(0);
   const [companies, setCompanies] = useState([] as Company[]);
+  const [renderComponent, setRenderComponent] = useState("Companies");
 
   React.useEffect(() => {
     fetchCompanies();
@@ -22,14 +23,21 @@ const Director = () => {
 
   const handleSelectedCompany = (id: number) => {
     setSelectedComId(id);
+    setRenderComponent("Students");
+    console.log(id);
+  }
+
+  const handleSelectedStudent = (id: number) => {
+    setSelectedStdId(id);
+    setRenderComponent("StudentCV");
     console.log(id);
   }
 
   return (
     <div>
-      {<AcceptedCompanies companies={companies} onCompanySelect={handleSelectedCompany} />}
-      {selectedComId > 0 && <CompnentA />}
-      {selectedStdId > 0 && <CompnentB />}
+      {renderComponent === "Companies" && <AcceptedCompanies companies={companies} onCompanySelect={handleSelectedCompany} />}
+      {renderComponent === "Students" && <StudentsInterviewedInCompanyComponent companyId = {selectedComId}  onStudentSelect={handleSelectedStudent}/>}
+      {renderComponent === "StudentCV" && <StudentCVComponent StudentId = {selectedStdId}/>}
 
     </div>
   )

@@ -47,7 +47,7 @@ const SetPassesComponent = () => {
 					<TextField
 						required
 						id="teer1Pass"
-						name="teer1Pass"
+						name="level1"
 						fullWidth
 						onChange={handleChange}
 					/>
@@ -67,7 +67,7 @@ const SetPassesComponent = () => {
 					<TextField
 						required
 						id="teer2Pass"
-						name="teer2Pass"
+						name="level2"
 						//label="teer-2 Pass"
 						fullWidth
 						onChange={handleChange}

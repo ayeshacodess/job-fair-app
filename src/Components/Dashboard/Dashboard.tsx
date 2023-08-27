@@ -26,10 +26,8 @@ import DisplayStudentFeedbackComponent from '../Students/DisplayStudentFeedback'
 import ExecutiveSummary from '../EventExecutiveSummary/ExecutiveSummary';
 import CompanySummaryComponent from '../EventExecutiveSummary/CompanySummaryComponent';
 import SetPassesComponent from '../SetPasses/SetPasses';
-import RegularAndJumpedCOmponent from '../JumpedRegularIntrvws/RegularAndJumped';
-import AcceptedCompanies from '../director/AcceptedCompanies';
 import Director from '../director/Director';
-
+import RegularJumpedP from '../JumpedRegularIntrvws/RegularJumpedP';
 const drawerWidth: number = 240;
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -157,8 +155,8 @@ function DashboardContent() {
 								{renderItem === MenuItemList.Student && 
 									<Students />
 								}
-								{renderItem === MenuItemList.regAndJump && 
-									<RegularAndJumpedCOmponent />
+								{renderItem === MenuItemList.RegularJumpedP && 
+									<RegularJumpedP />
 								}
 								{renderItem === MenuItemList.SetPasses && 
 									<SetPassesComponent />

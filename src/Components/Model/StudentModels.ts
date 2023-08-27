@@ -8,7 +8,6 @@ export interface Student {
     contact2: string;
     gender: boolean | null;
     cvpath: string;
-    
     hasFYP: boolean | null;
     FypTitle: string;
     FypTech: string;
