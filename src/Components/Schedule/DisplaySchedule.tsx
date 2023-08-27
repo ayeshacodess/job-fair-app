@@ -1,9 +1,10 @@
-import { Button, Paper, AppBar, Toolbar, Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, FormGroup, Checkbox, FormControlLabel, Grid } from "@mui/material";
+import { AppBar, Button, Checkbox, FormControlLabel, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Toolbar, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
+import { AppContext } from "../Context/AppContext";
 import { getData } from "../Helper/httpClient";
 import { DisplaySchedule } from "../Model/DisplayScheduleModels";
-import { AppContext } from "../Context/AppContext";
 import GiveFeedback from "./GiveFeedback";
+import JumpTheQueueComponent from "./JumpTheQueue";
 import { getColumnForAdminOrSocietyMember, getColumnForCompany, getColumnForStudent } from "./ScheduleUtility";
 
 interface DisplayScheduleModel extends DisplaySchedule {
@@ -17,17 +18,18 @@ const DisplayScheduleComponent = () => {
     const [info, setInfo] = useState([] as DisplayScheduleModel[]);
     const [openGiveFeedbackDialog, setOpenGiveFeedbackDialog] = React.useState(false);
     const [selectedSchedule, setSelectedSchedule] = useState({} as DisplaySchedule);
+    const [isJumpTheQueuePopup, setIsJumpTheQueuePopup] = React.useState(false);
 
-    React.useEffect(
-        () => {
-            fetchInfo();
-        }, []
-    )
+    React.useEffect(() => {
+        fetchInfo();
+    }, []);
+
     const fetchInfo = async () => {
         const url = `https://localhost:44309/api/schedule/get?role=${userProfile.role}&userId=${userProfile.userProfileId}`
         var infoFromDb = await getData<DisplayScheduleModel[]>(url);
         setInfo(infoFromDb);
     }
+    
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
     }
@@ -162,6 +164,12 @@ const DisplayScheduleComponent = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Schedule
                     </Typography>
+                    {userProfile.role === "Student" && Number(userProfile.cgpa) > Number(2.99) && <Button 
+                        variant="contained" 
+                        color="secondary" 
+                        onClick={() => setIsJumpTheQueuePopup(true)}>
+                            Jump the Queue
+                        </Button>}
                 </Toolbar>
             </AppBar>
             <TableContainer sx={{ maxHeight: 440 }}>
@@ -219,6 +227,9 @@ const DisplayScheduleComponent = () => {
                 handleDialog={handleDialog}
                 schedule={selectedSchedule}
             />
+            <JumpTheQueueComponent 
+                onJump={() => fetchInfo()}
+                onClose={() => setIsJumpTheQueuePopup(false)} openDialog={isJumpTheQueuePopup} />
         </Paper>
     )
 }
