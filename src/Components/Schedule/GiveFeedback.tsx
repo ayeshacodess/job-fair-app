@@ -98,7 +98,11 @@ const GiveFeedbackComponent = (props: GIveFeedbackProp) => {
 											/>
 										</Grid>
 										<Grid item xs={12} sm={4}>
-											<FormControlLabel value={3} control={<Radio />} label="Fair" />
+											<FormControlLabel 
+												value={3} 
+												control={<Radio />} 
+												label="Fair" 
+											/>
 										</Grid>
 										<Grid item xs={12} sm={4}>
 											<FormControlLabel

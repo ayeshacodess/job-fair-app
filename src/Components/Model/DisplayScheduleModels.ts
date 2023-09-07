@@ -15,4 +15,5 @@ export interface DisplaySchedule {
     description: string;
     allocatedRoom: string;
     isShortListed: boolean;
+    myNumberInQueue: number;
 }

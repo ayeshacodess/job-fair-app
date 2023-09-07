@@ -1,5 +1,5 @@
 export interface DisplayScheduleColumn {
-    id: 'id' | "studentId" | "percentile" | 'studentName' | 'aridNumber' | 'companyId' | 'compnayName' | 'createorId' | 'creatorRole' | 'date' | 'startTime' | 'endTime' | 'allocatedRoom' | 'action';
+    id: 'id' | "studentId" | "percentile" | 'studentName' | 'aridNumber' | 'companyId' | 'compnayName' | 'createorId' | 'creatorRole' | 'date' | 'startTime' | 'endTime' | 'allocatedRoom' | 'myNumberInQueue' | 'action';
     label: string;
     minWidth?: number;
     align?: 'center'
@@ -90,6 +90,10 @@ export const getColumnForStudent = () : DisplayScheduleColumn[] => {
         {
             id: 'allocatedRoom',
             label: ' Allocated Room'
+        },
+        {
+            id: 'myNumberInQueue',
+            label: ' Number In Queue'
         },
         // {
         //     id: 'action',

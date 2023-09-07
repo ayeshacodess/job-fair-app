@@ -94,6 +94,7 @@ const DisplayScheduleComponent = () => {
             interviewed: currentInfo.interviewed,
             description: currentInfo.description,
             isShortListed: currentInfo.isShortListed,
+            myNumberInQueue: currentInfo.myNumberInQueue,
             action: <div>
                 {(userProfile.role === "Company") &&
                     <>
