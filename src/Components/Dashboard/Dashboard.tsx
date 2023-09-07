@@ -28,6 +28,8 @@ import CompanySummaryComponent from '../EventExecutiveSummary/CompanySummaryComp
 import SetPassesComponent from '../SetPasses/SetPasses';
 import Director from '../director/Director';
 import RegularJumpedP from '../JumpedRegularIntrvws/RegularJumpedP';
+import { SkillAverageComponent } from '../../skillsStatics/skillAverage';
+import { SkillCountComponent } from '../../skillsStatics/skillAnalytics';
 const drawerWidth: number = 240;
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -187,6 +189,12 @@ function DashboardContent() {
 								}
 								{renderItem === MenuItemList.CompanySummary && 
 									<CompanySummaryComponent />
+								}
+								{renderItem === MenuItemList.SkillAverage &&
+									<SkillAverageComponent />
+								}
+								{renderItem === MenuItemList.SkillAnalytic &&
+									<SkillCountComponent />
 								}
 							</>}
 						</Grid>
