@@ -23,7 +23,7 @@ interface RatingProp {
 
 const HoverRating = (props: RatingProp) => {
     const [value, setValue] = React.useState<number | null>(props.rate);
-    const [hover, setHover] = React.useState(-1);
+    //const [hover, setHover] = React.useState(-1);
 
     const onchangeHandler = async (_event: React.SyntheticEvent<Element, Event>, newValue: number | null) => {
         const url = `https://localhost:44309/api/company/rating?companyId=${props.companyId}&rating=${newValue}`;
@@ -45,11 +45,11 @@ const HoverRating = (props: RatingProp) => {
                 precision={1}
                 getLabelText={getLabelText}
                 onChange={onchangeHandler}
-                onChangeActive={(event, newHover) => {
-                    setHover(newHover); 
-                }}
+            //     onChangeActive={(event, newHover) => {
+            //         setHover(newHover); 
+            //     }}
                 emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
-            />
+             />
         </Box>
     );
 }
