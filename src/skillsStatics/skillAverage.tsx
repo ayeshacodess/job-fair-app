@@ -19,7 +19,7 @@ import { Box, FormControl, Grid, InputLabel, MenuItem, OutlinedInput, Select, Se
 import { MenuProps } from '../Components/Shared/Helper';
 
 interface Column {
-    id: 'Skill_Id' | 'TechnologyName' | 'Average' ;
+    id: 'Skill_Id' | 'TechnologyName' | 'Average' | 'status';
     label: string;
     minWidth?: number;
     align?: 'center'
@@ -41,13 +41,19 @@ const columns: readonly Column[] = [
         id: 'Average',
         label: 'Average',
         minWidth: 170
+    },
+    {
+        id: 'status',
+        label: 'Status',
+        minWidth: 170
     }
 ];
 
 interface SkillAverageModel {
     Skill_Id: number;
     TechnologyName: string;
-    Average: string;
+    Average: number;
+    status: string;
 }
 
 export const SkillAverageComponent = () => {
@@ -86,12 +92,32 @@ export const SkillAverageComponent = () => {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-
+    const grtStatusOfAvg = (avg: number)=>{
+if(avg === 5){
+    return "excellent";
+}
+else if(avg >= 4 && avg < 5){
+    return "good";
+}
+else if(avg >= 3 && avg < 4){
+    return "fair";
+}
+else if(avg >= 2 && avg < 3){
+    return "avg";
+}
+else if(avg >= 1 && avg < 2){
+    return "worst";
+}
+else{
+    return "";
+}
+    }
     const createData = (currentSkillAverageData: SkillAverageModel): SkillAverageModel => {
         return { 
             Skill_Id: currentSkillAverageData.Skill_Id,
             TechnologyName: currentSkillAverageData.TechnologyName,
             Average: currentSkillAverageData.Average,
+            status: grtStatusOfAvg(currentSkillAverageData.Average),
         };
     }
 
@@ -117,7 +143,7 @@ export const SkillAverageComponent = () => {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Box sx={{ mt: 1 }}>
+             <Box sx={{ mt: 1 }}>
                 <React.Fragment >
                     <Grid container spacing={3} padding={2}>
                         <Grid item xs={12} sm={6}>
@@ -140,7 +166,7 @@ export const SkillAverageComponent = () => {
                         </Grid>
                         <Grid item xs={6} sm={3}></Grid>
                         <Grid item xs={6} sm={3}>
-                            <Button variant="contained" type="button" onClick={handleOnReset}> Reset </Button>
+                             <Button variant="contained" type="button" onClick={handleOnReset}> Reset </Button> 
                         </Grid>
                     </Grid>
                 </React.Fragment>
