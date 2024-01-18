@@ -30,6 +30,8 @@ import Director from '../director/Director';
 import RegularJumpedP from '../JumpedRegularIntrvws/RegularJumpedP';
 import { SkillAverageComponent } from '../../skillsStatics/skillAverage';
 import { SkillCountComponent } from '../../skillsStatics/skillAnalytics';
+import { StdFeedbackAverageComponent } from '../Taskk/StudentFeedbackAvgInACompany';
+import { CompanyAverageComponent } from '../Taskk/CompanyAverageScore';
 const drawerWidth: number = 240;
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -190,12 +192,18 @@ function DashboardContent() {
 								{renderItem === MenuItemList.CompanySummary && 
 									<CompanySummaryComponent />
 								}
-								{renderItem === MenuItemList.SkillAverage &&
+								{renderItem === MenuItemList.FeedbackAverageInACompany && 
+									<StdFeedbackAverageComponent />
+								}
+								{renderItem === MenuItemList.CompanyAverage && 
+									<CompanyAverageComponent />
+								}
+								{/* {renderItem === MenuItemList.SkillAverage &&
 									<SkillAverageComponent />
 								}
 								{renderItem === MenuItemList.SkillAnalytic &&
 									<SkillCountComponent />
-								}
+								} */}
 							</>}
 						</Grid>
 					</Container>

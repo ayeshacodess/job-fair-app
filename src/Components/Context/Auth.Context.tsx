@@ -43,7 +43,6 @@ const ContextProvider = (props: any) => {
         setLoginSuccess(false);
         setLoginError("Something went wrong");
     }
-
     const onSuccess = (user: UserProfile) => {
         setAppState(Object.assign({}, appState, {userProfile: user, isLoggedIn: true, isLoginPending: false})); 
     }

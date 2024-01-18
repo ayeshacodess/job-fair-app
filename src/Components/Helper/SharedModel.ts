@@ -20,5 +20,7 @@ export enum MenuItemList {
     RegularJumpedP,
     RegularAndJumpedCOmponent,
     SkillAverage,
-    SkillAnalytic
+    SkillAnalytic,
+    FeedbackAverageInACompany,
+    CompanyAverage,
 };

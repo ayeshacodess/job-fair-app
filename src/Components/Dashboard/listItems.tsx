@@ -36,7 +36,21 @@ const MenuItems = (props: MenuItemProps) => {
 			<ListItemText primary="Dashboard" />
 		</ListItemButton>
 
-		<ListItemButton onClick={() => onClickHandler(MenuItemList.SkillAverage)}>
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.FeedbackAverageInACompany)}>
+			<ListItemIcon>
+				<DashboardIcon />
+			</ListItemIcon >
+			<ListItemText primary="Student Feedback Avg" />
+		</ListItemButton>
+
+		<ListItemButton onClick={() => onClickHandler(MenuItemList.CompanyAverage)}>
+			<ListItemIcon>
+				<DashboardIcon />
+			</ListItemIcon >
+			<ListItemText primary="Company Average" />
+		</ListItemButton>
+
+		{/* <ListItemButton onClick={() => onClickHandler(MenuItemList.SkillAverage)}>
 			<ListItemIcon>
 				<DashboardIcon />
 			</ListItemIcon >
@@ -48,7 +62,7 @@ const MenuItems = (props: MenuItemProps) => {
 				<DashboardIcon />
 			</ListItemIcon >
 			<ListItemText primary="Skills Analytics" />
-		</ListItemButton>
+		</ListItemButton> */}
 
 		<ListItemButton onClick={() => onClickHandler(MenuItemList.Student)}>
 			<ListItemIcon>
